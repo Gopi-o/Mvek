@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderItem;
-use Illuminate\Support\Facades\Session;
+use App\Services\CartService;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -21,7 +21,7 @@ class OrderController extends Controller
             'address' => 'required|string|max:500',
         ]);
 
-        $cart = session('cart', []);
+        $cart = CartService::getItems();
         if (empty($cart)) {
             return back()->with('error', 'Корзина пуста!');
         }
@@ -54,7 +54,7 @@ class OrderController extends Controller
             ]);
         }
 
-        session()->forget('cart');
+        CartService::clear();
 
         return redirect()->route('orders.show', $order->id)
             ->with('success', 'Заказ #' . $order->id . ' успешно оформлен!');

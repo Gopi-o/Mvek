@@ -36,10 +36,13 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
+        $product->load('category');
+
         $related = Product::where('category_id', $product->category_id)
             ->where('id', '!=', $product->id)
             ->take(4)
             ->get();
+
         return view('products.show', compact('product', 'related'));
     }
 

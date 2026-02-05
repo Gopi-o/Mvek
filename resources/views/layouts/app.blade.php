@@ -24,6 +24,7 @@
                     <li class="nav-item"><a class="nav-link" href="{{ route('home') }}">Главная</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('catalog.index') }}">Каталог</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('compare.index') }}">Сравнение</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('pages.about') }}">О нас</a></li>
                 </ul>
                 <ul class="navbar-nav">
                     @auth
@@ -60,11 +61,11 @@
                     @endauth
                     
                     <li class="nav-item position-relative">
-                        <a class="nav-link" href="#" id="cart-toggle">
+                        <a class="nav-link" href="{{ route('cart.index') }}" id="cart-toggle" title="Корзина">
                             <i class="fas fa-shopping-cart"></i>
                             <span class="badge bg-danger position-absolute top-0 start-100 translate-middle" 
                                 id="cart-count" style="font-size: 0.7em;">
-                                {{ session('cart', []) ? collect(session('cart'))->sum('quantity') : 0 }} 
+                                {{ $cartCount ?? 0 }}
                             </span>
                         </a>
                     </li>
@@ -76,9 +77,52 @@
     @yield('content')
 
     <!-- Футер -->
-    <footer class="bg-dark text-white py-4 mt-5">
-        <div class="container text-center">
-            <p>&copy; 2025 VR-Shop. Лучшие VR-очки и гаджеты.</p>
+    <footer class="bg-dark text-white mt-5 pt-5 pb-4">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="fas fa-vr-cardboard fs-3 me-2 text-primary"></i>
+                        <span class="fs-4 fw-bold">VR-Shop</span>
+                    </div>
+                    <p class="text-white-50">Интернет-магазин VR-очков, аксессуаров и игр. Помогаем выбрать комплект под ваши задачи: игры, обучение, симуляторы и бизнес.</p>
+                    <div class="d-flex gap-3">
+                        <a href="https://t.me" class="text-white-50"><i class="fab fa-telegram fa-lg"></i></a>
+                        <a href="https://www.youtube.com" class="text-white-50"><i class="fab fa-youtube fa-lg"></i></a>
+                        <a href="mailto:info@vr-shop.ru" class="text-white-50"><i class="fas fa-envelope fa-lg"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <h6 class="text-uppercase small text-white-50">Магазин</h6>
+                    <ul class="list-unstyled mb-0">
+                        <li><a href="{{ route('catalog.index') }}" class="text-white text-decoration-none d-block py-1">Каталог</a></li>
+                        <li><a href="{{ route('compare.index') }}" class="text-white text-decoration-none d-block py-1">Сравнение</a></li>
+                        <li><a href="{{ route('cart.index') }}" class="text-white text-decoration-none d-block py-1">Корзина</a></li>
+                        <li><a href="{{ route('pages.about') }}" class="text-white text-decoration-none d-block py-1">О компании</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6 class="text-uppercase small text-white-50">Информация</h6>
+                    <ul class="list-unstyled mb-0">
+                        <li><a href="{{ route('pages.delivery') }}" class="text-white text-decoration-none d-block py-1">Доставка и оплата</a></li>
+                        <li><a href="{{ route('pages.vr-games') }}" class="text-white text-decoration-none d-block py-1">Подборка VR-игр</a></li>
+                        <li><a href="{{ route('home') }}#faq" class="text-white text-decoration-none d-block py-1">FAQ</a></li>
+                        <li><a href="{{ route('home') }}#contact" class="text-white text-decoration-none d-block py-1">Контакты</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6 class="text-uppercase small text-white-50">Поддержка</h6>
+                    <p class="text-white-50 mb-2">Задайте вопрос по подбору VR-комплекта или настройке.</p>
+                    <a href="mailto:info@vr-shop.ru" class="btn btn-primary btn-sm w-100 mb-2">Написать нам</a>
+                    <div class="small text-white-50">Ежедневно: 10:00–20:00 МСК</div>
+                    <div class="small text-white-50">Тел: +7 (900) 000-00-00</div>
+                </div>
+            </div>
+            <hr class="border-secondary my-4">
+            <div class="d-flex justify-content-between flex-wrap text-white-50 small">
+                <span>© 2025 VR-Shop. Все права защищены.</span>
+                <span>VR-очки • Аксессуары • Игры</span>
+            </div>
         </div>
     </footer>
 
@@ -134,7 +178,7 @@
     
 
     <script>
-        let cartItems = @json(session('cart', []));
+        let cartItems = @json($cartItems ?? []);
         
 
         document.addEventListener('DOMContentLoaded', function() {

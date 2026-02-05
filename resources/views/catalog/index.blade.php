@@ -78,7 +78,7 @@
                         <div class="card-body d-flex flex-column p-3">
                             <span class="badge bg-primary mb-2">{{ $product->category->name }}</span>
                             <h6 class="card-title mb-2">
-                                <a href="#" class="text-decoration-none text-dark">{{ $product->name }}</a>
+                                <a href="{{ route('products.show', $product) }}" class="text-decoration-none text-dark">{{ $product->name }}</a>
                             </h6>
                             <p class="card-text text-muted small flex-grow-1">{{ Str::limit($product->description, 80) }}</p>
                             
@@ -111,7 +111,7 @@
                 @endforeach
             </div>
 
-            <nav class="mt-5">
+            <nav class="mt-5 catalog-pagination">
                 {{ $products->appends(request()->query())->links() }}
             </nav>
         @else
@@ -131,6 +131,15 @@
 .hover-shadow { transition: all 0.3s ease; }
 .hover-shadow:hover { transform: translateY(-8px); box-shadow: 0 15px 40px rgba(0,0,0,0.15) !important; }
 .object-fit-cover { object-fit: cover; }
+.catalog-pagination a,
+.catalog-pagination span {
+    padding: 0.25rem 0.6rem !important;
+    font-size: 0.875rem !important;
+}
+.catalog-pagination svg {
+    width: 14px;
+    height: 14px;
+}
 </style>
 @endpush
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Services\CartService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -22,6 +23,9 @@ class LoginController extends Controller
         
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
+
+            // Корзина из сессии (гость) объединяется с корзиной в БД
+            CartService::mergeSessionToUser(Auth::id());
 
             if (Auth::user()->is_admin) {
                 return redirect()->intended('/admin/dashboard');

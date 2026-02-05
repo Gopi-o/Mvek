@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Services\CartService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -37,6 +38,7 @@ class RegisterController extends Controller
         event(new Registered($user));
 
         auth()->login($user);
+        CartService::mergeSessionToUser($user->id);
 
         return redirect()->route('home')->with('success', 'Регистрация прошла успешно!');
     }

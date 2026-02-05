@@ -35,18 +35,25 @@
                         <span class="badge bg-success position-absolute top-0 start-0 m-2">Новинка</span>
                     </div>
                     <div class="card-body d-flex flex-column p-3">
-                        <h6 class="card-title text-truncate">{{ $product->name }}</h6>
+                        <h6 class="card-title text-truncate">
+                            <a href="{{ route('products.show', $product) }}" class="text-decoration-none text-dark">
+                                {{ $product->name }}
+                            </a>
+                        </h6>
                         <p class="card-text text-muted small mb-3">{{ Str::limit($product->description, 70) }}</p>
                         <div class="d-flex justify-content-between align-items-end flex-grow-1">
                             <div>
                                 <span class="h5 text-danger fw-bold">{{ number_format($product->price, 0, ',', ' ') }} ₽</span>
                                 <br><small class="text-muted">{{ $product->stock }} шт. в наличии</small>
                             </div>
-                            <form method="POST" action="{{ route('compare.add') }}" class="d-inline">
-                                @csrf
-                                <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                <button type="submit" class="btn btn-outline-primary btn-sm">Сравнить</button>
-                            </form>
+                            <div class="d-flex flex-column align-items-end gap-2">
+                                <a href="{{ route('products.show', $product) }}" class="btn btn-primary btn-sm">Подробнее</a>
+                                <form method="POST" action="{{ route('compare.add') }}" class="d-inline">
+                                    @csrf
+                                    <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                    <button type="submit" class="btn btn-outline-primary btn-sm">Сравнить</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -57,6 +64,46 @@
                 <p>Добавьте товары через админ-панель</p>
             </div>
             @endforelse
+        </div>
+    </div>
+</section>
+
+<!-- Преимущества -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-3">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body">
+                        <h6 class="fw-bold mb-2">Подбор под задачу</h6>
+                        <p class="text-muted small mb-0">Игры, обучение или бизнес — соберём комплект и дадим инструкцию.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body">
+                        <h6 class="fw-bold mb-2">Тестируем сами</h6>
+                        <p class="text-muted small mb-0">Каждую модель проверяем: трекинг, удобство, дисплеи, прошивки.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body">
+                        <h6 class="fw-bold mb-2">Быстрая доставка</h6>
+                        <p class="text-muted small mb-0">Курьером или СДЭК. Страхуем отправку и даём трек сразу.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body">
+                        <h6 class="fw-bold mb-2">Поддержка</h6>
+                        <p class="text-muted small mb-0">Поможем настроить, обновить прошивку и подобрать игры.</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -81,6 +128,65 @@
                 </a>
             </div>
             @endforeach
+        </div>
+    </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="py-5">
+    <div class="container">
+        <h2 class="h4 text-center mb-4">Частые вопросы</h2>
+        <div class="row g-3">
+            <div class="col-md-6">
+                <div class="p-3 border rounded-3 bg-light h-100">
+                    <h6 class="fw-bold">Нужен ли мощный ПК?</h6>
+                    <p class="text-muted small mb-0">Для автономных моделей (Meta/PICO) не нужен. Для SteamVR подойдут ПК с RTX 3060 и выше для высоких настроек.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="p-3 border rounded-3 bg-light h-100">
+                    <h6 class="fw-bold">Есть ли рассрочка?</h6>
+                    <p class="text-muted small mb-0">Онлайн-оплата картой и СБП, рассрочку оформляем через партнерский банк по запросу.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="p-3 border rounded-3 bg-light h-100">
+                    <h6 class="fw-bold">Поможете настроить?</h6>
+                    <p class="text-muted small mb-0">Да, даём инструкции, видео и подключаемся удалённо при необходимости.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="p-3 border rounded-3 bg-light h-100">
+                    <h6 class="fw-bold">Можно протестировать?</h6>
+                    <p class="text-muted small mb-0">В Москве/СПб можно оформить демо-сессию по предварительной записи.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Контакты -->
+<section id="contact" class="py-5 bg-dark text-white">
+    <div class="container">
+        <div class="row align-items-center g-4">
+            <div class="col-lg-6">
+                <h2 class="h4 mb-3">Нужна консультация по VR?</h2>
+                <p class="text-white-50 mb-3">Оставьте заявку — подберём шлем и игры под ваш сценарий. Ответим в течение дня.</p>
+                <a href="mailto:info@vr-shop.ru" class="btn btn-primary me-2">info@vr-shop.ru</a>
+                <span class="text-white-50 small">Тел: +7 (900) 000-00-00 (10:00–20:00 МСК)</span>
+            </div>
+            <div class="col-lg-6">
+                <div class="card bg-light border-0 shadow-sm">
+                    <div class="card-body">
+                        <h6 class="fw-bold mb-2">Что написать в запросе?</h6>
+                        <ul class="text-muted small mb-0">
+                            <li>Цель: игры, работа, обучение или бизнес.</li>
+                            <li>Бюджет и желаемый срок доставки.</li>
+                            <li>Есть ли ПК и его конфигурация.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>

@@ -42,8 +42,7 @@
         <div class="text-end">
             <h3>Итого: {{ number_format($total, 0, ',', ' ') }} ₽</h3>
             <a href="{{ route('cart.checkout') }}" class="btn btn-success btn-lg">Оформить заказ</a>
-            <a href="{{ route('cart.clear') }}" class="btn btn-outline-danger" onclick
-            ="return confirm('Очистить?')">Очистить</a>
+            <button type="button" class="btn btn-outline-danger" onclick="clearCartPage()">Очистить</button>
         </div>
     @else
         <div class="text-center py-5">
@@ -59,6 +58,17 @@
 
 @push('scripts')
 <script>
+function clearCartPage() {
+    if (!confirm('Очистить корзину?')) return;
+    fetch('{{ route("cart.clear") }}', {
+        method: 'DELETE',
+        headers: {'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content}
+    })
+    .then(r => r.json())
+    .then(() => location.reload())
+    .catch(() => alert('Ошибка'));
+}
+
 function removeFromCart(productId) {
     if (!confirm('Удалить товар из корзины?')) return;
     
