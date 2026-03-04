@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Контакты</title>
+    <style>
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        
+        header{
+            background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);
+            color:#fff;
+            padding:15px 50px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            position:sticky;
+            top:0;
+            z-index:100
+        }
+        .logo{font-size:24px;font-weight:bold;display:flex;align-items:center;gap:10px}
+        nav ul{list-style:none;display:flex;gap:30px}
+        nav a{color:#fff;text-decoration:none;font-weight:500;padding:5px 10px;border-radius:5px}
+        nav a.active{background:rgba(255,255,255,0.2)}
+        
+        .hero-banner{
+            position:relative;
+            width:100%;
+            min-height:400px;
+            overflow:hidden;
+            background:linear-gradient(135deg,#667eea 0%,#764ba2 100%)
+        }
+        .hero-image{
+            position:absolute;
+            top:0;
+            left:0;
+            width:100%;
+            height:100%;
+            object-fit:cover;
+            z-index:0
+        }
+        .hero-content{
+            position:relative;
+            z-index:1;
+            padding:80px 50px;
+            text-align:center;
+            color:#fff
+        }
+        .hero-content h1{font-size:48px;margin-bottom:20px}
+        .hero-content p{font-size:20px;margin-bottom:30px;opacity:0.9}
+        .btn-primary{
+            display:inline-block;
+            background:#fff;
+            color:#667eea;
+            padding:15px 40px;
+            border-radius:30px;
+            text-decoration:none;
+            font-weight:bold
+        }
+        
+        body{
+            font-family:system-ui,-apple-system,sans-serif;
+            line-height:1.6;
+            color:#333;
+            background:#f5f7fa
+        }
+        main{min-height:100vh}
+        
+        .products-section{
+            max-width:1200px;
+            margin:0 auto 60px;
+            padding:40px 20px
+        }
+        .products-section h2{
+            text-align:center;
+            margin-bottom:40px;
+            font-size:32px
+        }
+        .products-grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+            gap:30px
+        }
+        .product-card{
+            background:#fff;
+            border-radius:15px;
+            padding:25px;
+            text-align:center;
+            min-height:350px
+        }
+        .product-img{
+            width:100%;
+            height:200px;
+            object-fit:cover;
+            border-radius:10px;
+            margin-bottom:15px;
+            background:#e0e0e0
+        }
+        
+        .modal{
+            display:none;
+            position:fixed;
+            z-index:1000;
+            left:0;
+            top:0;
+            width:100%;
+            height:100%;
+            background:rgba(0,0,0,0.5)
+        }
+        .modal-content{
+            background:#fff;
+            margin:10% auto;
+            padding:30px;
+            border-radius:20px;
+            width:90%;
+            max-width:500px;
+            position:relative
+        }
+        .close{
+            position:absolute;
+            right:20px;
+            top:15px;
+            font-size:28px;
+            cursor:pointer
+        }
+        
+        /* Футер минимальный */
+        footer{
+            background:#333;
+            color:#fff;
+            text-align:center;
+            padding:30px
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://unpkg.com">
+    <link rel="preload" href="https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZ9hiJ-Ek-_EeA.woff2" as="font" type="font/woff2" crossorigin>
+     <link rel="preload" href="../css/style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="../css/style.css"></noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script type="module">
+        import { onCLS, onINP, onLCP, onFCP, onTTFB } from 'https://unpkg.com/web-vitals@3/dist/web-vitals.attribution.js?module';
+        
+        onTTFB((metric) => console.log('TTFB:', metric.value.toFixed(2), 'ms', metric));
+        onFCP((metric) => console.log('FCP:', metric.value.toFixed(2), 'ms', metric));
+        onLCP((metric) => console.log('LCP:', metric.value.toFixed(2), 'ms', metric));
+        onINP((metric) => console.log('INP:', metric.value.toFixed(2), 'ms', metric));
+        onCLS((metric) => console.log('CLS:', metric.value.toFixed(4), metric));
+        
+        function sendToAnalytics(metric) {
+            const data = {
+                name: metric.name,
+                value: metric.value,
+                rating: metric.rating,
+                delta: metric.delta,
+                id: metric.id,
+                navigationType: metric.navigationType
+            };
+            console.log('📊 Analytics:', data);
+        }
+        
+        onTTFB(sendToAnalytics);
+        onFCP(sendToAnalytics);
+        onLCP(sendToAnalytics);
+        onINP(sendToAnalytics);
+        onCLS(sendToAnalytics);
+    </script>
+</head>
+<body>
+    <header>
+        <div class="logo"> МойМагазин</div>
+        <nav>
+            <ul>
+                <li><a href="../index.html">Главная</a></li>
+                <li><a href="catalog.html">Каталог</a></li>
+                <li><a href="contact.html" class="active">Контакты</a></li>
+                <li><a href="profile.html">Профиль</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <section class="contact-section">
+            <h1> Свяжитесь с нами</h1>
+            
+            <div class="contact-container">
+                <div class="contact-info">
+                    <div class="info-card">
+                        <span class="info-icon">📍</span>
+                        <h3>Адрес</h3>
+                        <p>г. Москва, ул. Примерная, д. 123</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <span class="info-icon">📧</span>
+                        <h3>Email</h3>
+                        <p>support@moimagazin.ru</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <span class="info-icon">📱</span>
+                        <h3>Телефон</h3>
+                        <p>+7 (999) 123-45-67</p>
+                    </div>
+                </div>
+                
+                <form class="contact-form" id="contactForm">
+                    <h2>Форма обратной связи</h2>
+                    
+                    <div class="form-group">
+                        <label for="name">Ваше имя</label>
+                        <input type="text" id="name" name="name" required placeholder="Иван Иванов">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required placeholder="ivan@example.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="subject">Тема</label>
+                        <select id="subject" name="subject">
+                            <option value="question">Вопрос о товаре</option>
+                            <option value="order">Заказ</option>
+                            <option value="support">Техническая поддержка</option>
+                            <option value="other">Другое</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Сообщение</label>
+                        <textarea id="message" name="message" rows="5" required placeholder="Введите ваше сообщение..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn-submit">Отправить сообщение</button>
+                </form>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <p>&copy; 2024 МойМагазин. Все права защищены.</p>
+    </footer>
+    
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="modal-header">
+                <span style="font-size: 48px;"></span>
+                <h2>Успешно отправлено!</h2>
+            </div>
+            <div class="modal-body">
+                <p>Спасибо за ваше сообщение. Мы свяжемся с вами в ближайшее время.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js" type="module"></script>
+</body>
+</html>

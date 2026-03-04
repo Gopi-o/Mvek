@@ -1,0 +1,200 @@
+<?php $__env->startSection('title', 'VR-очки и гаджеты | Лучшие VR-шлемы 2025'); ?>
+
+<?php $__env->startSection('content'); ?>
+<!-- Hero Section -->
+<section class="bg-dark text-white py-5 mb-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-4">VR-очки будущего</h1>
+                <p class="lead mb-4">Погрузитесь в виртуальную реальность с лучшими VR-шлемами 2025 года. Oculus, HTC Vive, PICO — всё в наличии!</p>
+                <a href="<?php echo e(route('catalog.index')); ?>" class="btn btn-primary btn-lg me-3">Каталог товаров</a>
+                <a href="<?php echo e(route('compare.index')); ?>" class="btn btn-outline-light btn-lg">Сравнить модели</a>
+            </div>
+            <div class="col-lg-6 text-center">
+                <img src="<?php echo e(asset('storage/img/home-badge-hero.jpg')); ?>" 
+                     class="img-fluid rounded shadow-lg" alt="VR-очки">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Новинки -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="h3 text-center mb-5">Новинки недели</h2>
+        <div class="row g-4">
+            <?php $__empty_1 = true; $__currentLoopData = $featured; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+            <div class="col-md-3">
+                <div class="card h-100 shadow-sm border-0 hover-shadow">
+                    <div class="card-img-top position-relative overflow-hidden" style="height: 200px;">
+                        <img src="<?php echo e($product->image ? asset('storage/img/' . $product->image) : asset('storage/img/vr-ochki-def.jpg')); ?>" 
+                            class="w-100 h-100 object-fit-cover" alt="<?php echo e($product->name); ?>">
+                        <span class="badge bg-success position-absolute top-0 start-0 m-2">Новинка</span>
+                    </div>
+                    <div class="card-body d-flex flex-column p-3">
+                        <h6 class="card-title text-truncate">
+                            <a href="<?php echo e(route('products.show', $product)); ?>" class="text-decoration-none text-dark">
+                                <?php echo e($product->name); ?>
+
+                            </a>
+                        </h6>
+                        <p class="card-text text-muted small mb-3"><?php echo e(Str::limit($product->description, 70)); ?></p>
+                        <div class="d-flex justify-content-between align-items-end flex-grow-1">
+                            <div>
+                                <span class="h5 text-danger fw-bold"><?php echo e(number_format($product->price, 0, ',', ' ')); ?> ₽</span>
+                                <br><small class="text-muted"><?php echo e($product->stock); ?> шт. в наличии</small>
+                            </div>
+                            <div class="d-flex flex-column align-items-end gap-2">
+                                <a href="<?php echo e(route('products.show', $product)); ?>" class="btn btn-primary btn-sm">Подробнее</a>
+                                <form method="POST" action="<?php echo e(route('compare.add')); ?>" class="d-inline">
+                                    <?php echo csrf_field(); ?>
+                                    <input type="hidden" name="product_id" value="<?php echo e($product->id); ?>">
+                                    <button type="submit" class="btn btn-outline-primary btn-sm">Сравнить</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+            <div class="col-12 text-center py-5">
+                <h4>Новинок пока нет</h4>
+                <p>Добавьте товары через админ-панель</p>
+            </div>
+            <?php endif; ?>
+        </div>
+    </div>
+</section>
+
+<!-- Преимущества -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-3">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body">
+                        <h6 class="fw-bold mb-2">Подбор под задачу</h6>
+                        <p class="text-muted small mb-0">Игры, обучение или бизнес — соберём комплект и дадим инструкцию.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body">
+                        <h6 class="fw-bold mb-2">Тестируем сами</h6>
+                        <p class="text-muted small mb-0">Каждую модель проверяем: трекинг, удобство, дисплеи, прошивки.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body">
+                        <h6 class="fw-bold mb-2">Быстрая доставка</h6>
+                        <p class="text-muted small mb-0">Курьером или СДЭК. Страхуем отправку и даём трек сразу.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body">
+                        <h6 class="fw-bold mb-2">Поддержка</h6>
+                        <p class="text-muted small mb-0">Поможем настроить, обновить прошивку и подобрать игры.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Категории -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="h3 text-center mb-5">Популярные категории</h2>
+        <div class="row g-4">
+            <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <div class="col-md-4 col-lg-2">
+                <a href="<?php echo e(route('catalog.index', ['category' => $category->slug])); ?>" class="text-decoration-none">
+                    <div class="card border-0 h-100 text-center hover-shadow">
+                        <div class="card-body py-4">
+                            <div class="bg-primary bg-opacity-10 rounded-circle d-inline-block p-4 mb-3">
+                                <i class="fas fa-vr-cardboard fs-1 text-primary"></i>
+                            </div>
+                            <h6 class="fw-bold mb-2"><?php echo e($category->name); ?></h6>
+                            <small class="text-muted"><?php echo e($category->products->count()); ?> товаров</small>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="py-5">
+    <div class="container">
+        <h2 class="h4 text-center mb-4">Частые вопросы</h2>
+        <div class="row g-3">
+            <div class="col-md-6">
+                <div class="p-3 border rounded-3 bg-light h-100">
+                    <h6 class="fw-bold">Нужен ли мощный ПК?</h6>
+                    <p class="text-muted small mb-0">Для автономных моделей (Meta/PICO) не нужен. Для SteamVR подойдут ПК с RTX 3060 и выше для высоких настроек.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="p-3 border rounded-3 bg-light h-100">
+                    <h6 class="fw-bold">Есть ли рассрочка?</h6>
+                    <p class="text-muted small mb-0">Онлайн-оплата картой и СБП, рассрочку оформляем через партнерский банк по запросу.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="p-3 border rounded-3 bg-light h-100">
+                    <h6 class="fw-bold">Поможете настроить?</h6>
+                    <p class="text-muted small mb-0">Да, даём инструкции, видео и подключаемся удалённо при необходимости.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="p-3 border rounded-3 bg-light h-100">
+                    <h6 class="fw-bold">Можно протестировать?</h6>
+                    <p class="text-muted small mb-0">В Москве/СПб можно оформить демо-сессию по предварительной записи.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Контакты -->
+<section id="contact" class="py-5 bg-dark text-white">
+    <div class="container">
+        <div class="row align-items-center g-4">
+            <div class="col-lg-6">
+                <h2 class="h4 mb-3">Нужна консультация по VR?</h2>
+                <p class="text-white-50 mb-3">Оставьте заявку — подберём шлем и игры под ваш сценарий. Ответим в течение дня.</p>
+                <a href="mailto:info@vr-shop.ru" class="btn btn-primary me-2">info@vr-shop.ru</a>
+                <span class="text-white-50 small">Тел: +7 (900) 000-00-00 (10:00–20:00 МСК)</span>
+            </div>
+            <div class="col-lg-6">
+                <div class="card bg-light border-0 shadow-sm">
+                    <div class="card-body">
+                        <h6 class="fw-bold mb-2">Что написать в запросе?</h6>
+                        <ul class="text-muted small mb-0">
+                            <li>Цель: игры, работа, обучение или бизнес.</li>
+                            <li>Бюджет и желаемый срок доставки.</li>
+                            <li>Есть ли ПК и его конфигурация.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+.hover-shadow { transition: all 0.3s; }
+.hover-shadow:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.2) !important; }
+.object-fit-cover { object-fit: cover; }
+</style>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH E:\Suorce\VS_CODE\WEB\Mvek\resources\views/home.blade.php ENDPATH**/ ?>

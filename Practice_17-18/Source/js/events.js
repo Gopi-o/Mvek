@@ -1,0 +1,149 @@
+class EventBus {
+    constructor() {
+        this.listeners = new Map();
+        this.history = [];
+    }
+    
+    on(event, callback) {
+        if (!this.listeners.has(event)) {
+            this.listeners.set(event, []);
+        }
+        this.listeners.get(event).push(callback);
+        
+        return () => this.off(event, callback);
+    }
+    
+    off(event, callback) {
+        const callbacks = this.listeners.get(event);
+        if (callbacks) {
+            const index = callbacks.indexOf(callback);
+            if (index > -1) callbacks.splice(index, 1);
+        }
+    }
+    
+    emit(event, data) {
+        const timestamp = new Date().toISOString();
+        const eventData = { event, data, timestamp, id: this.generateId() };
+        
+        this.history.push(eventData);
+        if (this.history.length > 50) this.history.shift();
+        
+        const callbacks = this.listeners.get(event) || [];
+        callbacks.forEach(cb => {
+            try {
+                cb(data, eventData);
+            } catch (err) {
+                console.error('Event handler error:', err);
+            }
+        });
+        
+        const wildcards = this.listeners.get('*') || [];
+        wildcards.forEach(cb => cb(event, data, eventData));
+        
+        console.log('[EVENT]', event, data);
+    }
+    
+    once(event, callback) {
+        const wrapper = (data, meta) => {
+            callback(data, meta);
+            this.off(event, wrapper);
+        };
+        return this.on(event, wrapper);
+    }
+    
+    generateId() {
+        return Math.random().toString(36).substr(2, 9);
+    }
+    
+    getHistory(filter = null) {
+        if (filter) return this.history.filter(h => h.event === filter);
+        return this.history;
+    }
+}
+
+export const bus = new EventBus();
+
+
+bus.on('*', (event, data, meta) => {
+    console.log(`[AUDIT] ${event} at ${meta.timestamp}`, data);
+});
+
+bus.on('product:added', (product) => {
+    showNotification(`✅ Товар "${product.title}" добавлен в каталог`);
+});
+
+bus.on('product:updated', (product) => {
+    showNotification(`📝 Товар "${product.title}" обновлён`);
+});
+
+bus.on('product:deleted', (product) => {
+    showNotification(`🗑️ Товар "${product.title}" удалён`);
+});
+
+bus.on('cart:added', (item) => {
+    showNotification(`🛒 ${item.title} добавлен в корзину`);
+});
+
+bus.on('product:viewed', (product) => {
+    const views = JSON.parse(localStorage.getItem('analytics_views') || '[]');
+    views.push({ productId: product.id, time: new Date().toISOString() });
+    localStorage.setItem('analytics_views', JSON.stringify(views.slice(-100)));
+});
+
+function showNotification(message) {
+    const notif = document.createElement('div');
+    notif.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #667eea;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        z-index: 10000;
+        animation: slideInRight 0.3s ease;
+    `;
+    notif.textContent = message;
+    
+    document.body.appendChild(notif);
+    
+    setTimeout(() => {
+        notif.style.animation = 'slideOutRight 0.3s ease';
+        setTimeout(() => notif.remove(), 300);
+    }, 3000);
+}
+
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes slideInRight {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+    @keyframes slideOutRight {
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(100%); opacity: 0; }
+    }
+`;
+document.head.appendChild(style);
+
+window.EventBus = bus;
+
+export const Events = {
+    productAdded: (product) => bus.emit('product:added', product),
+    productUpdated: (product) => bus.emit('product:updated', product),
+    productDeleted: (product) => bus.emit('product:deleted', product),
+    productViewed: (product) => bus.emit('product:viewed', product),
+    
+    cartAdded: (item) => bus.emit('cart:added', item),
+    cartRemoved: (item) => bus.emit('cart:removed', item),
+    cartCleared: () => bus.emit('cart:cleared'),
+    
+    userLogin: (user) => bus.emit('user:login', user),
+    userLogout: () => bus.emit('user:logout'),
+    
+    on: (event, cb) => bus.on(event, cb),
+    once: (event, cb) => bus.once(event, cb),
+    
+    getHistory: (filter) => bus.getHistory(filter)
+};
