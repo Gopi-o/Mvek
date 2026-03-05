@@ -1,81 +1,58 @@
-const modal = document.getElementById("modal");
-const successModal = document.getElementById("successModal");
-
-let productsCache = null;
-
-async function loadProducts() {
-    if (!productsCache) {
-        const { products } = await import('./data.js');
-        productsCache = products;
-    }
-    return productsCache;
-}
-
-export async function openModal(productId) {
-    const products = await loadProducts();
-    const product = products[productId];
-    
-    if (!product) {
-        console.error('Product not found:', productId);
-        return;
-    }
-    
-    if (!modal) {
-        console.error('Modal element not found');
-        return;
-    }
-    
-    const iconEl = document.getElementById("modal-icon");
-    const titleEl = document.getElementById("modal-title");
-    const descEl = document.getElementById("modal-description");
-    const priceEl = document.getElementById("modal-price");
-    
-    if (iconEl) iconEl.textContent = product.icon;
-    if (titleEl) titleEl.textContent = product.title;
-    if (descEl) descEl.textContent = product.description;
-    if (priceEl) priceEl.textContent = product.price;
-    
-    modal.style.display = "block";
-    document.body.style.overflow = "hidden";
-}
-
-export function closeModal() {
-    if (modal) {
-        modal.style.display = "none";
-    }
-    if (successModal) {
-        successModal.style.display = "none";
-    }
-    document.body.style.overflow = "auto";
-}
-
-export function openSuccessModal() {
-    if (!successModal) {
-        console.error('Success modal not found');
-        return;
-    }
-    successModal.style.display = "block";
-    document.body.style.overflow = "hidden";
-}
-
+// modules/modal.js
 export function initModal() {
-    document.addEventListener('click', function(e) {
-        if (e.target.classList.contains('close')) {
+    const modal = document.getElementById('modal');
+    if (!modal) return;
+
+    const modalContent = modal.querySelector('.modal-content');
+    const closeBtn = modal.querySelector('.close');
+
+    // Закрытие по клику на крестик
+    closeBtn.addEventListener('click', closeModal);
+
+    // Закрытие по клику вне контента (на фон)
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
             closeModal();
         }
     });
 
-    window.addEventListener('click', function(event) {
-        if (event.target.classList.contains('modal')) {
-            closeModal();
-        }
-    });
+    // Закрытие по Escape — добавляем только один раз
+    document.addEventListener('keydown', handleEscKey, { once: false });
 
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
+    function handleEscKey(e) {
+        if (e.key === 'Escape' && modal.style.display === 'block') {
             closeModal();
         }
-    });
-    
-    console.log('Modal initialized');
+    }
+
+    function closeModal() {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+
+    window.openModal = async function(id) {
+        const modal = document.getElementById('modal');
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+
+        const modalBody = modal.querySelector('.modal-body');
+        modalBody.innerHTML = '<p style="text-align:center;padding:40px;">Загрузка...</p>';
+
+        try {
+            const product = BFF.getProduct(id, 'desktop');
+            if (!product) throw new Error('Товар не найден');
+
+            document.getElementById('modal-icon').textContent = product.icon || '📦';
+            document.getElementById('modal-title').textContent = product.fullTitle || product.title;
+            
+            const descEl = document.getElementById('modal-description');
+            descEl.textContent = product.description || 'Описание отсутствует';
+            
+            document.getElementById('modal-price').textContent = product.price || '— ₽';
+
+        } catch (err) {
+            console.error(err);
+            modalBody.innerHTML = '<p style="color:red;text-align:center;">Ошибка загрузки товара</p>';
+        }
+    };
 }
