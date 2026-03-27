@@ -14,8 +14,7 @@
                 <a href="{{ route('compare.index') }}" class="btn btn-outline-light btn-lg">Сравнить модели</a>
             </div>
             <div class="col-lg-6 text-center">
-                <img src="{{ asset('storage/img/home-badge-hero.jpg')}}" 
-                     class="img-fluid rounded shadow-lg" alt="VR-очки">
+                
             </div>
         </div>
     </div>
