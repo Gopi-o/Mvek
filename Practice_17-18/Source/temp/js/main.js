@@ -3,7 +3,7 @@ async function initApp() {
     const[
     {
         initSmoothScroll
-    }] = await Promise.all([import('./modules/modal.js'), import('./modules/utils.js')]);
+    }] = await Promise.all([import('./modules/utils.js'), import('./modules/utils.js')]);
     initModal();
     initSmoothScroll();
     const path = window.location.pathname;

@@ -130,7 +130,8 @@
     <div style="position: fixed; bottom: 20px; left: 20px; z-index: 9999;">
         <button onclick="demoBFF()">BFF Demo</button>
         <button onclick="demoCQRS()">CQRS Demo</button>
-        <button onclick="demoEvents()">Events Demo</button>
+        <button onclick="testQueue()" style="background: #4CAF50; color: white;"> Test Queue</button>
+        <button onclick="showQueueStats()" style="background: #2196F3; color: white;"> Queue Stats</button>
     </div>
     
     <footer>
@@ -196,6 +197,7 @@
         import { BFF } from './js/bff.js';
         import { CatalogAPI } from './js/cqrs.js';
         import { Events } from './js/events.js';
+        import './js/queue.js';
         
         window.demoBFF = () => {
             const desktop = BFF.getProduct(1, 'desktop');
@@ -212,6 +214,47 @@
         window.demoEvents = () => {
             Events.productAdded({ id: 999, title: 'New Product' });
         };
+
+        window.testQueue = async () => {
+        console.clear();
+        console.log('=== Testing Queue ===\n');
+        
+        const result = OrderManager.createOrder({
+            userEmail: prompt('Email для уведомления:', 'customer@example.com') || 'customer@example.com',
+            items: [
+                { title: 'Смартфон Pro', quantity: 1, price: 29999 },
+                { title: 'Наушники Max', quantity: 2, price: 12499 }
+            ],
+            total: 29999 + (12499 * 2)
+        });
+        
+        console.log('Order created:', result.order);
+        console.log('Task ID:', result.taskId);
+        console.log('\nWatch the console for email sending simulation...');
+        
+        setTimeout(() => {
+            const stats = Queue.getStats();
+            alert(`Queue Stats:\nPending: ${stats.pending}\nProcessed: ${stats.processed}\nFailed: ${stats.failed}`);
+        }, 2000);
+    };
+    
+    window.showQueueStats = () => {
+        const stats = Queue.getStats();
+        const orders = OrderManager.getOrders();
+        
+        alert(`
+            Pending tasks: ${stats.pending}
+            Processed: ${stats.processed}
+            Failed: ${stats.failed}
+            Working: ${stats.isWorking ? 'Yes' : 'No'}
+
+            ${orders.map(o => `#${o.id} - ${o.status} - ${o.total} ₽`).join('\n') || 'No orders'}
+                    `);
+                };
+                
+                console.log('Try: testQueue() - create test order with email notification');
+                console.log('Try: showQueueStats() - show queue statistics');
+                console.log('Try: Queue.getStats() - get stats in console');
     </script>
 </body>
 </html>
