@@ -1,0 +1,47 @@
+{% extends 'bot_app/base.html' %}
+
+{% block title %}{% if document %}Редактирование{% else %}Новый файл{% endif %} — {{ project.name }}{% endblock %}
+
+{% block content %}
+<div class="container" style="padding-top: 2rem;">
+    
+    <h1 style="margin-bottom: 0.5rem;">
+        {% if document %}
+            Редактирование: {{ document.filename }}
+        {% else %}
+            Новый документ
+        {% endif %}
+    </h1>
+    <p style="color: #888; margin-bottom: 2rem;">{{ project.name }}</p>
+    
+    <div class="card">
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label>Имя файла</label>
+                {{ form.filename }}
+            </div>
+            
+            <div class="form-group">
+                <label>Содержимое (Markdown)</label>
+                {{ form.content }}
+            </div>
+            
+            {% if form.errors %}
+                <div class="alert alert-error" style="margin-bottom: 1rem;">
+                    {% for error in form.non_field_errors %}
+                        {{ error }}<br>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            
+            <div style="display: flex; gap: 1rem;">
+                <a href="{% url 'files_manager' project.slug %}" class="btn btn-secondary">Отмена</a>
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+            </div>
+        </form>
+    </div>
+    
+</div>
+{% endblock %}

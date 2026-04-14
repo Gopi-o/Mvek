@@ -1,0 +1,495 @@
+{% extends 'bot_app/base.html' %}
+{% load static %}
+
+{% block title %}Project Architect Bot — Управление проектами через Telegram{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-badge">🚀 Новый способ работы с документацией</div>
+        <h1>Управляй проектами<br>не выходя из Telegram</h1>
+        <p class="hero-subtitle">
+            Project Architect Bot — это мост между вашими Git-репозиториями и Telegram. 
+            Редактируйте документацию, управляйте конфигами и мониторьте логи без лишних кликов.
+        </p>
+        <div class="hero-cta">
+            {% if user.is_authenticated %}
+                <a href="{% url 'project_list' %}" class="btn btn-primary btn-lg">
+                    Перейти к проектам →
+                </a>
+            {% else %}
+                <a href="{% url 'register' %}" class="btn btn-primary btn-lg">
+                    Начать бесплатно
+                </a>
+                <a href="{% url 'features' %}" class="btn btn-secondary btn-lg">
+                    Узнать больше
+                </a>
+            {% endif %}
+        </div>
+        
+        <!-- Командная строка демо -->
+        <div class="terminal-demo">
+            <div class="terminal-header">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+                <span class="terminal-title">@PythonLe</span>
+            </div>
+            <div class="terminal-body">
+                <div class="command-line">
+                    <span class="prompt">/</span>
+                    <span class="command">start</span>
+                </div>
+                <div class="response">
+                    🤖 Привет! Я Project Architect Bot.<br>
+                    Выбери проект для работы:
+                </div>
+                <div class="buttons-preview">
+                    <span class="btn-preview">🤖 Neuro-Chat Bot</span>
+                    <span class="btn-preview">🌐 Web App</span>
+                    <span class="btn-preview">📊 Data API</span>
+                    <span class="btn-preview new">+ Новый проект</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats">
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-number">3</div>
+                <div class="stat-label">Клика до документации</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">0</div>
+                <div class="stat-label">Отвлечений на Git интерфейс</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">∞</div>
+                <div class="stat-label">Проектов в одном боте</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Preview -->
+<section class="features-preview">
+    <div class="container">
+        <h2 class="section-title">Всё под рукой</h2>
+        <p class="section-subtitle">Забудьте про переключение между десятками вкладок</p>
+        
+        <div class="features-grid">
+            {% for feature in features %}
+            <div class="feature-card">
+                <div class="feature-icon">{{ feature.icon }}</div>
+                <h3>{{ feature.title }}</h3>
+                <p>{{ feature.desc }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center" style="margin-top: 3rem;">
+            <a href="{% url 'features' %}" class="btn btn-primary">
+                Все возможности →
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works -->
+<section class="how-it-works">
+    <div class="container">
+        <h2 class="section-title">Как это работает</h2>
+        
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>Добавьте проект</h3>
+                    <p>Укажите ссылку на Git-репозиторий и базовые настройки через веб или бота</p>
+                </div>
+            </div>
+            
+            <div class="step-arrow">→</div>
+            
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>Работайте в Telegram</h3>
+                    <p>Редактируйте README, обновляйте .env, смотрите логи — всё через команды бота</p>
+                </div>
+            </div>
+            
+            <div class="step-arrow">→</div>
+            
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>Авто-синхронизация</h3>
+                    <p>Изменения автоматически коммитятся в специальную ветку без конфликтов</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container">
+        <h2>Готовы попробовать?</h2>
+        <p>Бесплатно для личных проектов. Настройка за 2 минуты.</p>
+        {% if not user.is_authenticated %}
+        <div class="cta-buttons">
+            <a href="{% url 'register' %}" class="btn btn-primary btn-lg">
+                Создать аккаунт
+            </a>
+            <span class="cta-or">или</span>
+            <span class="cta-bot">
+                Найдите <code>@PythonLe</code> в Telegram
+            </span>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<style>
+/* ===== Hero Section ===== */
+.hero {
+    text-align: center;
+    padding: 6rem 2rem 4rem;
+    background: 
+        radial-gradient(ellipse at 20% 50%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 50%, rgba(118, 75, 162, 0.15) 0%, transparent 50%);
+}
+
+.hero-badge {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: rgba(102, 126, 234, 0.2);
+    color: #667eea;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, #fff 0%, #a0a0a0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-subtitle {
+    font-size: 1.25rem;
+    color: #888;
+    max-width: 600px;
+    margin: 0 auto 2rem;
+    line-height: 1.6;
+}
+
+.hero-cta {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 3rem;
+}
+
+.btn-lg {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+}
+
+/* ===== Terminal Demo ===== */
+.terminal-demo {
+    max-width: 700px;
+    margin: 0 auto;
+    background: #1a1a2e;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.terminal-header {
+    background: rgba(255,255,255,0.05);
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.dot.red { background: #ff5f56; }
+.dot.yellow { background: #ffbd2e; }
+.dot.green { background: #27c93f; }
+
+.terminal-title {
+    margin-left: auto;
+    color: #666;
+    font-size: 0.85rem;
+}
+
+.terminal-body {
+    padding: 1.5rem;
+    text-align: left;
+    font-family: 'Courier New', monospace;
+}
+
+.command-line {
+    margin-bottom: 1rem;
+}
+
+.prompt {
+    color: #27c93f;
+    margin-right: 0.5rem;
+}
+
+.command {
+    color: #fff;
+}
+
+.response {
+    color: #a0a0a0;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+.buttons-preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.btn-preview {
+    padding: 0.5rem 1rem;
+    background: rgba(102, 126, 234, 0.2);
+    border: 1px solid rgba(102, 126, 234, 0.3);
+    border-radius: 6px;
+    color: #667eea;
+    font-size: 0.85rem;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.btn-preview.new {
+    background: rgba(46, 204, 113, 0.2);
+    border-color: rgba(46, 204, 113, 0.3);
+    color: #2ecc71;
+}
+
+/* ===== Stats ===== */
+.stats {
+    padding: 3rem 2rem;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.stats-grid {
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 3rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.stat-label {
+    color: #888;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+/* ===== Features Preview ===== */
+.features-preview {
+    padding: 5rem 2rem;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.section-subtitle {
+    text-align: center;
+    color: #888;
+    font-size: 1.1rem;
+    margin-bottom: 3rem;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.feature-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 16px;
+    padding: 2rem;
+    transition: all 0.3s;
+}
+
+.feature-card:hover {
+    background: rgba(255,255,255,0.05);
+    transform: translateY(-5px);
+    border-color: rgba(102, 126, 234, 0.3);
+}
+
+.feature-card h3 {
+    margin: 1rem 0 0.5rem;
+    font-size: 1.25rem;
+}
+
+.feature-card p {
+    color: #888;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.text-center {
+    text-align: center;
+}
+
+/* ===== How It Works ===== */
+.how-it-works {
+    padding: 5rem 2rem;
+    background: rgba(255,255,255,0.02);
+}
+
+.steps {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 3rem;
+    flex-wrap: wrap;
+}
+
+.step {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    max-width: 280px;
+}
+
+.step-number {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.step-content h3 {
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.step-content p {
+    color: #888;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.step-arrow {
+    font-size: 2rem;
+    color: #667eea;
+    opacity: 0.5;
+}
+
+/* ===== CTA Section ===== */
+.cta-section {
+    padding: 5rem 2rem;
+    text-align: center;
+    background: radial-gradient(ellipse at center, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
+}
+
+.cta-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.cta-section > p {
+    color: #888;
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+}
+
+.cta-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.cta-or {
+    color: #666;
+}
+
+.cta-bot {
+    color: #888;
+}
+
+.cta-bot code {
+    background: rgba(102, 126, 234, 0.2);
+    color: #667eea;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+    
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .stats-grid {
+        flex-direction: column;
+        gap: 2rem;
+    }
+    
+    .steps {
+        flex-direction: column;
+    }
+    
+    .step-arrow {
+        transform: rotate(90deg);
+    }
+}
+</style>
+{% endblock %}

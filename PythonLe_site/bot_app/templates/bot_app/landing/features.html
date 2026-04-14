@@ -1,0 +1,319 @@
+{% extends 'bot_app/base.html' %}
+{% load static %}
+
+{% block title %}Возможности — Project Architect Bot{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'bot_app/css/features.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Header Section -->
+<section class="features-header">
+    <div class="container">
+        <h1>Всё, что нужно для управления проектами</h1>
+        <p class="subtitle">
+            Один бот — бесконечные возможности. Работайте с документацией, 
+            конфигами и логами без переключения между вкладками.
+        </p>
+    </div>
+</section>
+
+<!-- Main Features Grid -->
+<section class="features-detailed">
+    <div class="container">
+        
+        <!-- Feature 1: Telegram Bot -->
+        <div class="feature-row">
+            <div class="feature-visual">
+                <div class="phone-mockup">
+                    <div class="phone-screen">
+                        <div class="chat-header">@PythonLe</div>
+                        <div class="chat-messages">
+                            <div class="message bot">
+                                <div class="message-bubble">
+                                    Выберите проект:
+                                </div>
+                            </div>
+                            <div class="message buttons">
+                                <span class="chat-btn">🤖 Neuro-Chat</span>
+                                <span class="chat-btn">🌐 Web App</span>
+                                <span class="chat-btn">📊 Data API</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-content">
+                <div class="feature-icon-large"></div>
+                <h2>Управление через Telegram</h2>
+                <p>
+                    Не нужно открывать браузер или IDE. Все операции — прямо в мессенджере, 
+                    где вы и так проводите время. Быстрые команды, интуитивные кнопки, 
+                    мгновенные ответы.
+                </p>
+                <ul class="feature-list">
+                    <li>Мгновенный доступ из любой точки мира</li>
+                    <li>Push-уведомления о важных событиях</li>
+                    <li>Работает на телефоне, планшете и десктопе</li>
+                    <li>Офлайн-режим с синхронизацией</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Feature 2: Documentation -->
+        <div class="feature-row reverse">
+            <div class="feature-visual">
+                <div class="editor-mockup">
+                    <div class="editor-header">
+                        <span class="file-tab active">README.md</span>
+                        <span class="file-tab">CHANGELOG.md</span>
+                    </div>
+                    <div class="editor-body">
+                        <div class="line"><span class="line-num">1</span><span class="syntax-h1"># Project Name</span></div>
+                        <div class="line"><span class="line-num">2</span></div>
+                        <div class="line"><span class="line-num">3</span><span class="syntax-p">Описание проекта...</span></div>
+                        <div class="line"><span class="line-num">4</span></div>
+                        <div class="line"><span class="line-num">5</span><span class="syntax-h2">## Installation</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-content">
+                <div class="feature-icon-large"></div>
+                <h2>Редактирование документации</h2>
+                <p>
+                    Изменяйте README, CHANGELOG, API docs и любые другие markdown-файлы 
+                    прямо в боте или через веб-интерфейс. Предпросмотр перед сохранением, 
+                    автоматическая валидация ссылок.
+                </p>
+                <ul class="feature-list">
+                    <li>Поддержка Markdown с live-preview</li>
+                    <li>Автодополнение ссылок на issues и PR</li>
+                    <li>Шаблоны для быстрого старта</li>
+                    <li>История изменений с diff</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Feature 3: Configs -->
+        <div class="feature-row">
+            <div class="feature-visual">
+                <div class="config-mockup">
+                    <div class="config-header">.env</div>
+                    <div class="config-body">
+                        <div class="config-line">
+                            <span class="config-key">DATABASE_URL</span>
+                            <span class="config-sep">=</span>
+                            <span class="config-value">postgresql://...</span>
+                        </div>
+                        <div class="config-line">
+                            <span class="config-key">API_KEY</span>
+                            <span class="config-sep">=</span>
+                            <span class="config-value hidden">••••••••</span>
+                        </div>
+                        <div class="config-line">
+                            <span class="config-key">DEBUG</span>
+                            <span class="config-sep">=</span>
+                            <span class="config-value">false</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-content">
+                <div class="feature-icon-large"></div>
+                <h2>Управление конфигурациями</h2>
+                <p>
+                    Редактируйте .env файлы и JSON-конфиги через удобный интерфейс. 
+                    Визуальный редактор для переменных окружения, валидация синтаксиса, 
+                    защита секретов.
+                </p>
+                <ul class="feature-list">
+                    <li>Табличный редактор .env файлов</li>
+                    <li>JSON Schema валидация</li>
+                    <li>Шифрование чувствительных данных</li>
+                    <li>Резервное копирование конфигов</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Feature 4: Logs -->
+        <div class="feature-row reverse">
+            <div class="feature-visual">
+                <div class="logs-mockup">
+                    <div class="logs-toolbar">
+                        <span class="log-filter active">ALL</span>
+                        <span class="log-filter error">ERROR</span>
+                        <span class="log-filter warning">WARN</span>
+                        <span class="log-filter info">INFO</span>
+                    </div>
+                    <div class="logs-body">
+                        <div class="log-line error">
+                            <span class="timestamp">12:34:56</span>
+                            <span class="level">ERR</span>
+                            <span class="message">Connection timeout</span>
+                        </div>
+                        <div class="log-line warning">
+                            <span class="timestamp">12:35:01</span>
+                            <span class="level">WARN</span>
+                            <span class="message">Retry attempt 1...</span>
+                        </div>
+                        <div class="log-line info">
+                            <span class="timestamp">12:35:03</span>
+                            <span class="level">INFO</span>
+                            <span class="message">Connected successfully</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-content">
+                <div class="feature-icon-large"></div>
+                <h2>Просмотр и анализ логов</h2>
+                <p>
+                    Мониторьте логи в реальном времени, фильтруйте по уровню важности, 
+                    ищите по тексту. Автоматические алерты при критических ошибках.
+                </p>
+                <ul class="feature-list">
+                    <li>Real-time streaming логов</li>
+                    <li>Фильтрация по уровням (DEBUG → FATAL)</li>
+                    <li>Полнотекстовый поиск</li>
+                    <li>Экспорт в CSV/JSON</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Feature 5: Git Integration -->
+        <div class="feature-row">
+            <div class="feature-visual">
+                <div class="git-mockup">
+                    <div class="git-graph">
+                        <div class="git-branch main">main</div>
+                        <div class="git-line"></div>
+                        <div class="git-commit">●</div>
+                        <div class="git-line branch"></div>
+                        <div class="git-commit">●</div>
+                        <div class="git-branch bot">bot/docs-updates</div>
+                        <div class="git-line merge"></div>
+                        <div class="git-commit new">●</div>
+                        <div class="git-label">Auto-commit from bot</div>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-content">
+                <div class="feature-icon-large">🔗</div>
+                <h2>Git-интеграция</h2>
+                <p>
+                    Все изменения автоматически коммитятся в отдельную ветку. 
+                    Никаких конфликтов с основной разработкой. Поддержка GitHub, 
+                    GitLab, Bitbucket — HTTPS и SSH.
+                </p>
+                <ul class="feature-list">
+                    <li>Автоматические коммиты в изолированную ветку</li>
+                    <li>Поддержка Personal Access Tokens</li>
+                    <li>SSH-ключи для приватных репозиториев</li>
+                    <li>Pull Request шаблоны</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- Workflow Section -->
+<section class="workflow">
+    <div class="container">
+        <h2 class="section-title">Рабочий процесс</h2>
+        <p class="section-subtitle">От идеи до деплоя — всё в одном месте</p>
+        
+        <div class="workflow-steps">
+            <div class="workflow-step">
+                <div class="step-badge">1</div>
+                <h3>Добавьте проект</h3>
+                <p>Укажите URL репозитория и базовые настройки через веб или команду /create_project в боте</p>
+            </div>
+            <div class="workflow-arrow">→</div>
+            <div class="workflow-step">
+                <div class="step-badge">2</div>
+                <h3>Настройте шаблоны</h3>
+                <p>Выберите тип проекта — бот автоматически предложит оптимальную структуру папок</p>
+            </div>
+            <div class="workflow-arrow">→</div>
+            <div class="workflow-step">
+                <div class="step-badge">3</div>
+                <h3>Работайте из Telegram</h3>
+                <p>Редактируйте доки, обновляйте конфиги, смотрите логи — всё через привычный интерфейс</p>
+            </div>
+            <div class="workflow-arrow">→</div>
+            <div class="workflow-step">
+                <div class="step-badge">4</div>
+                <h3>Авто-синхронизация</h3>
+                <p>Изменения мгновенно коммитятся в bot/docs-updates, готовые к review и merge</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Commands Reference -->
+<section class="commands">
+    <div class="container">
+        <h2 class="section-title">Команды бота</h2>
+        
+        <div class="commands-grid">
+            <div class="command-card">
+                <code class="command-name">/start</code>
+                <p>Главное меню, выбор проекта</p>
+            </div>
+            <div class="command-card">
+                <code class="command-name">/view_projects</code>
+                <p>Список всех проектов</p>
+            </div>
+            <div class="command-card">
+                <code class="command-name">/create_project</code>
+                <p>Создать новый проект</p>
+            </div>
+            <div class="command-card">
+                <code class="command-name">/Edit_project[id]</code>
+                <p>Управление конкретным проектом</p>
+            </div>
+            <div class="command-card">
+                <code class="command-name">/Files_manager</code>
+                <p>Редактирование документации</p>
+            </div>
+            <div class="command-card">
+                <code class="command-name">/Configs_manager</code>
+                <p>Управление конфигами</p>
+            </div>
+            <div class="command-card">
+                <code class="command-name">/Logs_manager</code>
+                <p>Просмотр и поиск логов</p>
+            </div>
+            <div class="command-card">
+                <code class="command-name">/commit_changes</code>
+                <p>Ручной коммит в Git</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="features-cta">
+    <div class="container">
+        <h2>Готовы начать?</h2>
+        <p>Бесплатно для личных проектов. Корпоративные тарифы — по запросу.</p>
+        <div class="cta-buttons">
+            {% if user.is_authenticated %}
+                <a href="{% url 'project_list' %}" class="btn btn-primary btn-lg">
+                    Перейти в дашборд →
+                </a>
+            {% else %}
+                <a href="{% url 'register' %}" class="btn btn-primary btn-lg">
+                    Создать аккаунт бесплатно
+                </a>
+                <span class="cta-or">или найдите</span>
+                <code class="bot-mention">@ProjectArchitectBot</code>
+                <span class="cta-or">в Telegram</span>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}

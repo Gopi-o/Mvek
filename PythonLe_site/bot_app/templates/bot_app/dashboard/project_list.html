@@ -1,0 +1,61 @@
+{% extends 'bot_app/base.html' %}
+
+{% block title %}Мои проекты{% endblock %}
+
+{% block content %}
+<div class="container" style="padding-top: 2rem;">
+    
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <div>
+            <h1>Проекты</h1>
+            <p style="color: #888;">
+                {% if total_projects %}
+                    {{ active_projects }} активных из {{ total_projects }}
+                {% else %}
+                    Пока нет проектов
+                {% endif %}
+            </p>
+        </div>
+        <a href="{% url 'project_create' %}" class="btn btn-primary">+ Новый проект</a>
+    </div>
+    
+    {% if projects %}
+        <div style="display: grid; gap: 1rem;">
+            {% for project in projects %}
+            <div class="card" style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+                        <h3 style="margin: 0;">{{ project.name }}</h3>
+                        <span style="font-size: 0.75rem; padding: 0.25rem 0.75rem; background: rgba(102, 126, 234, 0.2); color: #667eea; border-radius: 12px;">
+                            {{ project.get_project_type_display }}
+                        </span>
+                        {% if not project.is_active %}
+                            <span style="font-size: 0.75rem; padding: 0.25rem 0.75rem; background: rgba(231, 76, 60, 0.2); color: #e74c3c; border-radius: 12px;">
+                                неактивен
+                            </span>
+                        {% endif %}
+                    </div>
+                    <p style="color: #888; font-size: 0.9rem; margin: 0;">
+                        {{ project.repo_url|truncatechars:50 }}
+                    </p>
+                    <p style="color: #666; font-size: 0.8rem; margin-top: 0.5rem;">
+                        Обновлен: {{ project.updated_at|date:"d.m.Y H:i" }}
+                    </p>
+                </div>
+                <div style="display: flex; gap: 0.5rem;">
+                    <a href="{% url 'project_detail' project.slug %}" class="btn btn-secondary btn-sm">Открыть</a>
+                    <a href="{% url 'project_update' project.slug %}" class="btn btn-secondary btn-sm">Изменить</a>
+                    <a href="{% url 'project_delete' project.slug %}" class="btn btn-danger btn-sm">Удалить</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="card" style="text-align: center; padding: 3rem;">
+            <p style="color: #888; margin-bottom: 1.5rem;">Нет проектов. Создайте первый!</p>
+            <a href="{% url 'project_create' %}" class="btn btn-primary">Создать проект</a>
+        </div>
+    {% endif %}
+    
+</div>
+{% endblock %}

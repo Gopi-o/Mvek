@@ -1,0 +1,25 @@
+{% extends 'bot_app/base.html' %}
+
+{% block title %}Очистка данных{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 400px; padding-top: 4rem; text-align: center;">
+    <div class="card">
+        <h1 style="margin-bottom: 1rem;">Очистить данные бота?</h1>
+        <p style="color: #888; margin-bottom: 2rem;">
+            Все проекты и их настройки будут удалены, 
+            но аккаунт останется активным.
+        </p>
+        
+        <form method="post">
+            {% csrf_token %}
+            <div style="display: flex; gap: 1rem;">
+                <a href="{% url 'profile' %}" class="btn btn-secondary" style="flex: 1;">Отмена</a>
+                <button type="submit" class="btn btn-warning" style="flex: 1; background: #f39c12; color: #fff;">
+                    Очистить
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,123 @@
+{% extends 'bot_app/base.html' %}
+
+{% block title %}{{ project.name }}{% endblock %}
+
+{% block content %}
+<div class="container" style="padding-top: 2rem;">
+    
+    <div style="margin-bottom: 2rem;">
+        <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+            <h1 style="margin: 0;">{{ project.name }}</h1>
+            <span style="font-size: 0.75rem; padding: 0.25rem 0.75rem; background: rgba(102, 126, 234, 0.2); color: #667eea; border-radius: 12px;">
+                {{ project.get_project_type_display }}
+            </span>
+            {% if not project.is_active %}
+                <span style="font-size: 0.75rem; padding: 0.25rem 0.75rem; background: rgba(231, 76, 60, 0.2); color: #e74c3c; border-radius: 12px;">
+                    неактивен
+                </span>
+            {% endif %}
+        </div>
+        <p style="color: #888;">{{ project.description|default:"Нет описания" }}</p>
+    </div>
+    
+    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem;">
+        
+        <!-- Основная информация -->
+        <div>
+            <div class="card" style="margin-bottom: 1rem;">
+                <h3 style="margin-bottom: 1rem; color: #667eea;">Информация</h3>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label style="color: #666; font-size: 0.85rem;">Репозиторий</label>
+                    <p style="margin: 0;">
+                        <a href="{{ project.repo_url }}" target="_blank" style="color: #667eea;">
+                            {{ project.repo_url|truncatechars:60 }}
+                        </a>
+                    </p>
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label style="color: #666; font-size: 0.85rem;">Ветка</label>
+                    <p style="margin: 0; font-family: monospace;">{{ project.branch }}</p>
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label style="color: #666; font-size: 0.85rem;">Создан</label>
+                    <p style="margin: 0;">{{ project.created_at|date:"d.m.Y H:i" }}</p>
+                </div>
+                
+                <div>
+                    <label style="color: #666; font-size: 0.85rem;">Обновлен</label>
+                    <p style="margin: 0;">{{ project.updated_at|date:"d.m.Y H:i" }}</p>
+                </div>
+            </div>
+            
+            <!-- Пути -->
+            <div class="card" style="margin-bottom: 1rem;">
+                <h3 style="margin-bottom: 1rem; color: #667eea;">Пути в репозитории</h3>
+                
+                <div style="display: grid; gap: 0.75rem;">
+                    <div>
+                        <span style="color: #666; font-size: 0.85rem;">Логи:</span>
+                        <code style="margin-left: 0.5rem;">{{ project.logs_path }}</code>
+                    </div>
+                    <div>
+                        <span style="color: #666; font-size: 0.85rem;">Доки:</span>
+                        <code style="margin-left: 0.5rem;">{{ project.docs_path }}</code>
+                    </div>
+                    <div>
+                        <span style="color: #666; font-size: 0.85rem;">Конфиги:</span>
+                        <code style="margin-left: 0.5rem;">{{ project.config_path }}</code>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Команда бота -->
+            <div class="card">
+                <h3 style="margin-bottom: 0.5rem; color: #667eea;">Команда для бота</h3>
+                <code style="display: block; padding: 0.75rem; background: rgba(255,255,255,0.05); border-radius: 4px;">
+                    {{ bot_command }}
+                </code>
+            </div>
+        </div>
+        
+        <!-- Боковая панель -->
+        <div>
+            <div class="card" style="margin-bottom: 1rem;">
+                <h3 style="margin-bottom: 1rem;">Управление</h3>
+                <div style="display: grid; gap: 0.5rem;">
+                    <a href="{% url 'files_manager' project.slug %}" class="btn btn-secondary" style="text-align: center;">Документация</a>
+                    <a href="{% url 'config_manager' project.slug %}" class="btn btn-secondary" style="text-align: center;">Конфиги</a>
+                    <a href="{% url 'logs_viewer' project.slug %}" class="btn btn-secondary" style="text-align: center;">Логи</a>
+                </div>
+            </div>
+            
+            <div class="card" style="margin-bottom: 1rem;">
+                <h3 style="margin-bottom: 1rem;">Действия</h3>
+                <div style="display: grid; gap: 0.5rem;">
+                    <a href="{% url 'project_update' project.slug %}" class="btn btn-secondary" style="text-align: center;">Редактировать</a>
+                    <a href="{% url 'project_delete' project.slug %}" class="btn btn-danger" style="text-align: center;">Удалить проект</a>
+                </div>
+            </div>
+            
+            {% if recent_docs %}
+            <div class="card">
+                <h3 style="margin-bottom: 1rem;">Недавние документы</h3>
+                <div style="display: grid; gap: 0.5rem;">
+                    {% for doc in recent_docs %}
+                        <div style="padding: 0.5rem; background: rgba(255,255,255,0.03); border-radius: 4px;">
+                            <span style="font-size: 0.9rem;">{{ doc.filename }}</span>
+                            <span style="color: #666; font-size: 0.75rem; float: right;">
+                                {{ doc.updated_at|date:"d.m" }}
+                            </span>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        
+    </div>
+    
+</div>
+{% endblock %}

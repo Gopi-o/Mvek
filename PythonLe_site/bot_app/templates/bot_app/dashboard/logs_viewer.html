@@ -1,0 +1,97 @@
+{% extends 'bot_app/base.html' %}
+
+{% block title %}Логи — {{ project.name }}{% endblock %}
+
+{% block content %}
+<div class="container" style="padding-top: 2rem;">
+    
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <div>
+            <h1>Логи</h1>
+            <p style="color: #888;">{{ project.name }}</p>
+        </div>
+    </div>
+    
+    <!-- Фильтры -->
+    <div class="card" style="margin-bottom: 1.5rem;">
+        <form method="get" style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: end;">
+            <div class="form-group" style="margin: 0; flex: 1; min-width: 150px;">
+                <label>Уровень</label>
+                <select name="level" class="form-control">
+                    <option value="">Все</option>
+                    <option value="DEBUG" {% if level_filter == 'DEBUG' %}selected{% endif %}>DEBUG</option>
+                    <option value="INFO" {% if level_filter == 'INFO' %}selected{% endif %}>INFO</option>
+                    <option value="WARNING" {% if level_filter == 'WARNING' %}selected{% endif %}>WARNING</option>
+                    <option value="ERROR" {% if level_filter == 'ERROR' %}selected{% endif %}>ERROR</option>
+                    <option value="CRITICAL" {% if level_filter == 'CRITICAL' %}selected{% endif %}>CRITICAL</option>
+                </select>
+            </div>
+            
+            <div class="form-group" style="margin: 0; flex: 2; min-width: 200px;">
+                <label>Поиск</label>
+                <input type="text" name="search" class="form-control" value="{{ search|default:'' }}" placeholder="Текст для поиска...">
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Применить</button>
+            
+            {% if level_filter or search %}
+                <a href="{% url 'logs_viewer' project.slug %}" class="btn btn-secondary">Сбросить</a>
+            {% endif %}
+        </form>
+    </div>
+    
+    <!-- Список логов -->
+    {% if logs %}
+    <div class="card" style="padding: 0; overflow: hidden;">
+        <div style="max-height: 600px; overflow-y: auto;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; font-family: monospace;">
+                <thead style="position: sticky; top: 0; background: rgba(255,255,255,0.05);">
+                    <tr>
+                        <th style="padding: 0.75rem; text-align: left; color: #888; font-weight: normal;">Время</th>
+                        <th style="padding: 0.75rem; text-align: left; color: #888; font-weight: normal; width: 80px;">Уровень</th>
+                        <th style="padding: 0.75rem; text-align: left; color: #888; font-weight: normal;">Сообщение</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for log in logs %}
+                    <tr style="border-top: 1px solid rgba(255,255,255,0.05);">
+                        <td style="padding: 0.5rem 0.75rem; color: #666; white-space: nowrap;">
+                            {{ log.timestamp|date:"d.m H:i:s" }}
+                        </td>
+                        <td style="padding: 0.5rem 0.75rem;">
+                            <span style="padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600;
+                                {% if log.level == 'DEBUG' %}background: rgba(149, 165, 166, 0.2); color: #95a5a6;
+                                {% elif log.level == 'INFO' %}background: rgba(52, 152, 219, 0.2); color: #3498db;
+                                {% elif log.level == 'WARNING' %}background: rgba(243, 156, 18, 0.2); color: #f39c12;
+                                {% elif log.level == 'ERROR' %}background: rgba(231, 76, 60, 0.2); color: #e74c3c;
+                                {% elif log.level == 'CRITICAL' %}background: rgba(231, 76, 60, 0.3); color: #e74c3c;
+                                {% endif %}">
+                                {{ log.level }}
+                            </span>
+                        </td>
+                        <td style="padding: 0.5rem 0.75rem; color: #aaa;">
+                            {{ log.message|truncatechars:100 }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% else %}
+    <div class="card" style="text-align: center; padding: 3rem;">
+        <p style="color: #888;">Нет логов</p>
+        {% if level_filter or search %}
+            <p style="color: #666; font-size: 0.85rem; margin-top: 0.5rem;">
+                Попробуйте изменить фильтры
+            </p>
+        {% endif %}
+    </div>
+    {% endif %}
+    
+    <div style="margin-top: 2rem;">
+        <a href="{% url 'project_detail' project.slug %}" class="btn btn-secondary">← Назад к проекту</a>
+    </div>
+    
+</div>
+{% endblock %}

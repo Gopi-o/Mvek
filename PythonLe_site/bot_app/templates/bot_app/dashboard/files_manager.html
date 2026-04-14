@@ -1,0 +1,44 @@
+{% extends 'bot_app/base.html' %}
+
+{% block title %}Документация — {{ project.name }}{% endblock %}
+
+{% block content %}
+<div class="container" style="padding-top: 2rem;">
+    
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <div>
+            <h1>Документация</h1>
+            <p style="color: #888;">{{ project.name }}</p>
+        </div>
+        <a href="{% url 'document_create' project.slug %}" class="btn btn-primary">+ Новый файл</a>
+    </div>
+    
+    {% if documents %}
+        <div style="display: grid; gap: 1rem;">
+            {% for doc in documents %}
+            <div class="card" style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h3 style="margin: 0; font-family: monospace;">{{ doc.filename }}</h3>
+                    <p style="color: #666; font-size: 0.85rem; margin: 0.25rem 0 0;">
+                        Обновлен: {{ doc.updated_at|date:"d.m.Y H:i" }}
+                    </p>
+                </div>
+                <div style="display: flex; gap: 0.5rem;">
+                    <a href="{% url 'document_edit' project.slug doc.id %}" class="btn btn-secondary btn-sm">Редактировать</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="card" style="text-align: center; padding: 3rem;">
+            <p style="color: #888; margin-bottom: 1.5rem;">Нет документов</p>
+            <a href="{% url 'document_create' project.slug %}" class="btn btn-primary">Создать первый файл</a>
+        </div>
+    {% endif %}
+    
+    <div style="margin-top: 2rem;">
+        <a href="{% url 'project_detail' project.slug %}" class="btn btn-secondary">← Назад к проекту</a>
+    </div>
+    
+</div>
+{% endblock %}

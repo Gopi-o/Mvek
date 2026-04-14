@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Project Architect Bot{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'bot_app/css/style.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{% url 'landing' %}" class="logo">🤖 Project Architect</a>
+            <div class="nav-links">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'project_list' %}">Мои проекты</a>
+                    <a href="{% url 'profile' %}">Профиль</a>
+                    <form method="post" action="{% url 'logout' %}" ">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-secondary" style="background: transparent; border: none; color: inherit; font: inherit; cursor: pointer; padding: 0;">Выйти</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'features' %}">Возможности</a>
+                    <a href="{% url 'login' %}" class="btn btn-secondary">Войти</a>
+                    <a href="{% url 'register' %}" class="btn btn-primary">Начать</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    
+    <main class="main-content">
+        {% if messages %}
+            <div class="container" style="padding-top: 1rem;">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        
+        {% block content %}{% endblock %}
+    </main>
+
+    <script src="{% static 'bot_app/js/app.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,113 @@
+{% extends 'bot_app/base.html' %}
+
+{% block title %}{% if form.instance.pk %}Редактирование{% else %}Новый проект{% endif %}{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 600px; padding-top: 2rem;">
+    
+    <h1 style="margin-bottom: 0.5rem;">
+        {% if form.instance.pk %}
+            Редактирование: {{ form.instance.name }}
+        {% else %}
+            Новый проект
+        {% endif %}
+    </h1>
+    <p style="color: #888; margin-bottom: 2rem;">
+        {% if form.instance.pk %}
+            Измените настройки проекта
+        {% else %}
+            Заполните основную информацию
+        {% endif %}
+    </p>
+    
+    <div class="card">
+        <form method="post">
+            {% csrf_token %}
+            
+            <h3 style="margin-bottom: 1rem; color: #667eea;">Основное</h3>
+            
+            <div class="form-group">
+                <label>Название проекта *</label>
+                {{ form.name }}
+            </div>
+            
+            <div class="form-group">
+                <label>Тип проекта</label>
+                {{ form.project_type }}
+            </div>
+            
+            <div class="form-group">
+                <label>Описание</label>
+                {{ form.description }}
+            </div>
+            
+            <hr style="border: none; border-top: 1px solid rgba(255,255,255,0.1); margin: 2rem 0;">
+            
+            <h3 style="margin-bottom: 1rem; color: #667eea;">Git-репозиторий</h3>
+            
+            <div class="form-group">
+                <label>URL репозитория *</label>
+                {{ form.repo_url }}
+            </div>
+            
+            <div class="form-group">
+                <label>Ветка для обновлений</label>
+                {{ form.branch }}
+            </div>
+            
+            <div class="form-group">
+                <label>Git токен (PAT)</label>
+                {{ form.git_token }}
+                <small style="color: #666; font-size: 0.8rem;">Оставьте пустым для SSH</small>
+            </div>
+            
+            <div class="form-check" style="margin-bottom: 1.5rem;">
+                {{ form.use_ssh }}
+                <label>Использовать SSH вместо токена</label>
+            </div>
+            
+            <hr style="border: none; border-top: 1px solid rgba(255,255,255,0.1); margin: 2rem 0;">
+            
+            <h3 style="margin-bottom: 1rem; color: #667eea;">Пути в репозитории</h3>
+            
+            <div class="form-group">
+                <label>Путь к логам</label>
+                {{ form.logs_path }}
+            </div>
+            
+            <div class="form-group">
+                <label>Путь к документации</label>
+                {{ form.docs_path }}
+            </div>
+            
+            <div class="form-group">
+                <label>Путь к конфигам</label>
+                {{ form.config_path }}
+            </div>
+            
+            <div class="form-check" style="margin-bottom: 1.5rem;">
+                {{ form.is_active }}
+                <label>Проект активен</label>
+            </div>
+            
+            {% if form.errors %}
+                <div class="alert alert-error" style="margin-bottom: 1rem;">
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            {{ error }}<br>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+            
+            <div style="display: flex; gap: 1rem;">
+                <a href="{% url 'project_list' %}" class="btn btn-secondary" style="flex: 1;">Отмена</a>
+                <button type="submit" class="btn btn-primary" style="flex: 1;">
+                    {% if form.instance.pk %}Сохранить{% else %}Создать{% endif %}
+                </button>
+            </div>
+        </form>
+    </div>
+    
+</div>
+{% endblock %}

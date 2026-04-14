@@ -1,0 +1,64 @@
+{% extends 'bot_app/base.html' %}
+
+{% block title %}Профиль — {{ user.username }}{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 600px; padding-top: 2rem;">
+    
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 2rem;">
+        <div class="card" style="text-align: center;">
+            <div style="font-size: 2rem; font-weight: 700; color: #667eea;">{{ projects_count }}</div>
+            <div style="color: #888; font-size: 0.9rem;">Всего проектов</div>
+        </div>
+        <div class="card" style="text-align: center;">
+            <div style="font-size: 2rem; font-weight: 700; color: #2ecc71;">{{ active_projects }}</div>
+            <div style="color: #888; font-size: 0.9rem;">Активных</div>
+        </div>
+    </div>
+    
+    <div class="card" style="margin-bottom: 1rem;">
+        <h2 style="margin-bottom: 1.5rem;">Настройки</h2>
+        
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label>О себе</label>
+                <textarea name="bio" class="form-control" rows="3">{{ profile.bio }}</textarea>
+            </div>
+            
+            <div class="form-group">
+                <label>Telegram username</label>
+                <input type="text" name="telegram_username" class="form-control" 
+                       value="{{ profile.telegram_username }}" placeholder="@username">
+            </div>
+            
+            <div class="form-check" style="margin-bottom: 1rem;">
+                <input type="checkbox" name="auto_sync" {% if profile.auto_sync %}checked{% endif %}>
+                <label>Авто-синхронизация с ботом</label>
+            </div>
+            
+            <div class="form-check" style="margin-bottom: 1.5rem;">
+                <input type="checkbox" name="notify_commits" {% if profile.notify_commits %}checked{% endif %}>
+                <label>Уведомлять о коммитах</label>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+        </form>
+    </div>
+    
+    <div class="card" style="border-color: rgba(231, 76, 60, 0.3);">
+        <h3 style="color: #e74c3c; margin-bottom: 1rem;">⚠️ Опасная зона</h3>
+        
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <a href="{% url 'clear_bot_data' %}" class="btn btn-secondary">
+                Очистить данные бота
+            </a>
+            <a href="{% url 'delete_account' %}" class="btn btn-danger">
+                🗑 Удалить аккаунт
+            </a>
+        </div>
+    </div>
+    
+</div>
+{% endblock %}

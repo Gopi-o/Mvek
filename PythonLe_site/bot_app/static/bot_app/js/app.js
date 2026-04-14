@@ -1,0 +1,1 @@
+console.log('Project Architect Bot loaded');

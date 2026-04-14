@@ -1,0 +1,25 @@
+{% extends 'bot_app/base.html' %}
+
+{% block title %}Удаление аккаунта{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 400px; padding-top: 4rem; text-align: center;">
+    <div class="card" style="border-color: rgba(231, 76, 60, 0.5);">
+        <h1 style="color: #e74c3c; margin-bottom: 1rem;">Удалить аккаунт?</h1>
+        <p style="color: #888; margin-bottom: 2rem;">
+            Все проекты, документы и данные будут безвозвратно удалены. 
+            Это действие нельзя отменить.
+        </p>
+        
+        <form method="post">
+            {% csrf_token %}
+            <div style="display: flex; gap: 1rem;">
+                <a href="{% url 'profile' %}" class="btn btn-secondary" style="flex: 1;">Отмена</a>
+                <button type="submit" class="btn btn-danger" style="flex: 1;">
+                    Да, удалить
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
