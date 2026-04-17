@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: mvek-app
+data:
+  KAFKA_BOOTSTRAP_SERVERS: "kafka:9092"
+  
+  POSTGRES_DB: "mydb"
+  POSTGRES_USER: "postgres"
+  POSTGRES_PASSWORD: "postgres"
+  SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres:5432/mydb"
