@@ -1,0 +1,49 @@
+:root {
+    --bg-primary: #060707;
+    --bg-secondary: #0a0a0a;
+    --bg-card: #0d0d0d;
+    --bg-elevated: #141414;
+    
+    --accent-orange: #B25430;
+    --accent-light: #E0DACE;
+    --accent-warm: #58342B;
+    
+    --gray-light: #A19F9F;
+    --gray-mid: #74747C;
+    --gray-dark: #2C211E;
+    
+    --teal: #2D4A4D;
+    --teal-dark: #263C44;
+    
+    --text-primary: #E0DACE;
+    --text-secondary: #A19F9F;
+    --text-muted: #74747C;
+    
+    --border: #1a1a1a;
+    --glow: rgba(178, 84, 48, 0.3);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+.min-vh-75 { min-height: 75vh; }
+.text-center { text-align: center; }
+.mt-5 { margin-top: 3rem !important; }
+.mb-4 { margin-bottom: 1.5rem !important; }
+
+@media (max-width: 768px) {
+    .hero-title { font-size: 2.5rem; }
+    .stat-number { font-size: 1.75rem; }
+    .cta-title { font-size: 1.75rem; }
+}
