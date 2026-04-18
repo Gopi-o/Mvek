@@ -39,14 +39,15 @@
                                 <i class="fas fa-user me-1"></i>{{ Auth::user()->name }}
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="{{ route('profile') }}">👤 Профиль</a></li>
                                 @if(!Auth::user()->is_admin)
-                                    <li><a class="dropdown-item" href="{{ route('orders.index')}}">Мои заказы</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('orders.index')}}">📦 Мои заказы</a></li>
                                 @endif
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
                                     <form method="POST" action="{{ route('logout') }}" class="d-inline">
                                         @csrf
-                                        <button class="dropdown-item" type="submit">Выход</button>
+                                        <button class="dropdown-item" type="submit">🚪 Выход</button>
                                     </form>
                                 </li>
                             </ul>

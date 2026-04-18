@@ -24,6 +24,11 @@ class User extends Authenticatable implements JWTSubject
         'password',
         'is_admin',
         'api_token',
+        'phone',
+        'birth_date',
+        'gender',
+        'username',  
+        'avatar', 
     ];
 
     /**
@@ -40,6 +45,7 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
         'is_admin' => 'boolean', 
+        'birth_date' => 'date',
     ];
 
     public function getJWTIdentifier()
