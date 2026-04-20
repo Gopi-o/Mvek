@@ -29,13 +29,13 @@ class TournamentMatch extends Model
         return $this->belongsTo(Round::class);
     }
 
-    public function matchParticipant()
+    public function matchParticipants()
     {
-        return $this->hasMany(MatchParticipant::class);
+        return $this->hasMany(MatchParticipant::class, 'match_id');
     }
 
     public function winner()
     {
-        return $this->hasOne(MatchParticipant::class)->where('is_winner', true);
+        return $this->hasOne(MatchParticipant::class, 'match_id')->where('is_winner', true);
     }
 }

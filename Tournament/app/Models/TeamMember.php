@@ -13,6 +13,7 @@ class TeamMember extends Model
     protected $fillable = [
         'team_id',
         'user_id',
+        'guest_name',
         'joined_at',
     ];
 
@@ -28,5 +29,10 @@ class TeamMember extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function getDisplayNameAttribute(): string
+    {
+        return $this->user?->name ?? $this->guest_name ?? 'Игрок';
     }
 }

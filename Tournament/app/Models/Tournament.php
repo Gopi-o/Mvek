@@ -12,11 +12,19 @@ class Tournament extends Model
 
     protected $fillable = [
         'name',
+        'discipline',
         'type_id',
         'owner_id',
         'status',
         'max_teams',
         'players_per_team',
+        'is_team_based',
+        'category',
+    ];
+
+    protected $casts = [
+        'is_team_based' => 'boolean',
+        'players_per_team' => 'integer',
     ];
 
     public function type()
@@ -45,5 +53,24 @@ class Tournament extends Model
             ->using(TournamentParticipant::class)
             ->withPivot('registered_at', 'seed', 'status')
             ->withTimestamps();
+    }
+
+    public function managers()
+    {
+        return $this->belongsToMany(User::class, 'tournament_managers')
+            ->withTimestamps();
+    }
+
+    public function canBeManagedBy(?User $user): bool
+    {
+        if (!$user) {
+            return false;
+        }
+
+        if ($this->owner_id === $user->id) {
+            return true;
+        }
+
+        return $this->managers()->where('users.id', $user->id)->exists();
     }
 }

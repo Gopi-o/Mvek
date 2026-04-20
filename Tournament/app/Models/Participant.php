@@ -34,8 +34,14 @@ class Participant extends Model
             ->withTimestamps();
     }
 
-    public function matchParticipant()
+    public function tournamentParticipantRecords()
+    {
+        return $this->hasMany(TournamentParticipant::class);
+    }
+
+    public function matchParticipants()
     {
         return $this->hasMany(MatchParticipant::class);
     }
+
 }

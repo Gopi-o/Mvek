@@ -14,21 +14,27 @@ class TournamentTypeSeeder extends Seeder
     {
         $types = [
             [
-                'name' => 'Одиночный',
-                'max_participants' => 32,
-                'is_team_based' => false,
-                'description' => 'Индивидуальные соревнования 1 на 1',
+                'name' => 'Single Elimination',
+                'slug' => 'single_elimination',
+                'description' => 'На выбывание, проигравший выбывает из турнира',
             ],
             [
-                'name' => 'Командный',
-                'max_participants' => 16,
-                'is_team_based' => true,
-                'description' => 'Командные соревнования',
+                'name' => 'Double Elimination',
+                'slug' => 'double_elimination',
+                'description' => 'На выбывание с лузерс раундом, два поражения для вылета',
+            ],
+            [
+                'name' => 'Round Robin',
+                'slug' => 'round_robin',
+                'description' => 'Каждый участник играет с каждым',
             ],
         ];
 
         foreach ($types as $type) {
-            TournamentType::create($type);
+            TournamentType::firstOrCreate(
+                ['slug' => $type['slug']],
+                $type
+            );
         }
     }
 }

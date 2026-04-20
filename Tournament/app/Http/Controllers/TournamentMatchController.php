@@ -7,18 +7,16 @@ use App\Models\Round;
 use App\Models\MatchParticipant;
 use App\Models\Tournament;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TournamentMatchController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Tournament $tournament)
     {
         $matches = TournamentMatch::whereHas('round', function ($q) use ($tournament) {
                 $q->where('tournament_id', $tournament->id);
             })
-            ->with(['matchParticipants.participant', 'round'])
+            ->with(['winner', 'matchParticipants.participant', 'round'])
             ->orderBy('round_id')
             ->orderBy('match_number')
             ->get();
@@ -26,57 +24,19 @@ class TournamentMatchController extends Controller
         return view('matches.index', compact('tournament', 'matches'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
     public function show(TournamentMatch $match)
     {
         $match->load(['round.tournament', 'matchParticipants.participant']);
         return view('matches.show', compact('match'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
-
     public function updateResult(Request $request, TournamentMatch $match)
     {
+        $tournament = $match->round->tournament;
+        if (!$tournament->canBeManagedBy(Auth::user())) {
+            abort(403);
+        }
+
         $validated = $request->validate([
             'winner_id' => 'required|exists:participants,id',
             'score' => 'nullable|string|max:50',
@@ -97,7 +57,9 @@ class TournamentMatchController extends Controller
 
         $match->update(['status' => 'completed']);
 
-        $this->advanceWinner($match);
+        if (($tournament->type?->slug ?? '') === 'single_elimination') {
+            $this->advanceWinner($match);
+        }
 
         return back()->with('success', 'Результат сохранён');
     }
@@ -142,6 +104,11 @@ class TournamentMatchController extends Controller
 
     public function schedule(Request $request, TournamentMatch $match)
     {
+        $tournament = $match->round->tournament;
+        if (!$tournament->canBeManagedBy(Auth::user())) {
+            abort(403);
+        }
+
         $validated = $request->validate([
             'scheduled_at' => 'required|date',
         ]);
@@ -150,55 +117,4 @@ class TournamentMatchController extends Controller
         return back()->with('success', 'Время назначено');
     }
 
-    public function generateMatches(Tournament $tournament)
-    {
-        $rounds = $tournament->rounds()->orderBy('round_number')->get();
-        $firstRound = $rounds->first();
-        $participantCount = $tournament->participants()->count();
-        $firstRoundMatches = 2 ** (ceil(log($participantCount, 2)) - 1);
-
-        $participants = $tournament->participants->shuffle();
-        for ($i = 0; $i < $firstRoundMatches; $i++) {
-            $match = TournamentMatch::create([
-                'round_id' => $firstRound->id,
-                'match_number' => $i + 1,
-                'status' => 'pending',
-                'bracket_position' => $i + 1,
-            ]);
-
-            $p1 = $participants[$i * 2] ?? null;
-            $p2 = $participants[$i * 2 + 1] ?? null;
-
-            if ($p1) {
-                MatchParticipant::create([
-                    'match_id' => $match->id,
-                    'participant_id' => $p1->id,
-                    'is_winner' => false,
-                    'place' => 1,
-                ]);
-            }
-            if ($p2) {
-                MatchParticipant::create([
-                    'match_id' => $match->id,
-                    'participant_id' => $p2->id,
-                    'is_winner' => false,
-                    'place' => 2,
-                ]);
-            }
-        }
-
-        foreach ($rounds->skip(1) as $round) {
-            $matchesCount = $firstRoundMatches / (2 ** ($round->round_number - 1));
-            for ($i = 1; $i <= $matchesCount; $i++) {
-                TournamentMatch::create([
-                    'round_id' => $round->id,
-                    'match_number' => $i,
-                    'status' => 'pending',
-                    'bracket_position' => $i,
-                ]);
-            }
-        }
-
-        return true;
-    }
 }

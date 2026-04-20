@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('matches', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('round_id')->constrained('rounds');
+            $table->foreignId('round_id')->constrained('rounds')->onDelete('cascade');
             $table->integer('match_number');
             $table->enum('status', ['pending', 'ongoing', 'completed'])->default('pending');
             $table->integer('bracket_position')->nullable();

@@ -12,13 +12,8 @@ class TournamentType extends Model
 
     protected $fillable = [
         'name',
-        'max_participants',
-        'is_team_based',
+        'slug',
         'description',
-    ];
-
-    protected $casts = [
-        'is_team_based' => 'boolean',
     ];
 
     public function tournaments()
