@@ -1,0 +1,10 @@
+@extends('layouts.admin')
+
+@section('title', 'Заказ №'.$order->id.' — UP_ZOO')
+
+@section('content')
+    <div class="admin-page-heading"><div><span class="eyebrow">ЗАКАЗЫ / #{{ $order->id }}</span><h1>Заказ №{{ $order->id }}</h1><p>Создан {{ $order->created_at->format('d.m.Y H:i') }} · {{ $order->user_id ? 'Заказ аккаунта' : 'Гостевой заказ' }}</p></div><a class="btn btn-outline-purple" href="{{ route('admin.orders.index') }}">← Все заказы</a></div>
+    <div class="row g-4"><div class="col-lg-7"><section class="admin-panel"><h2 class="admin-section-title">Состав заказа</h2><div class="table-responsive"><table class="table admin-table"><thead><tr><th>Товар</th><th>Цена</th><th>Кол-во</th><th>Итого</th></tr></thead><tbody>@foreach($order->items as $item)<tr><td>{{ $item->product_name }}</td><td>{{ number_format((float) $item->price, 0, ',', ' ') }} ₽</td><td>{{ $item->quantity }}</td><td>{{ number_format((float) $item->price * $item->quantity, 0, ',', ' ') }} ₽</td></tr>@endforeach</tbody><tfoot><tr><th colspan="3">Сумма заказа</th><th>{{ number_format((float) $order->total, 0, ',', ' ') }} ₽</th></tr></tfoot></table></div></section></div>
+        <div class="col-lg-5"><section class="admin-panel mb-4"><h2 class="admin-section-title">Данные доставки</h2><dl class="admin-details"><dt>Получатель</dt><dd>{{ $order->customer_name }}</dd><dt>Телефон</dt><dd>{{ $order->phone }}</dd><dt>Электронная почта</dt><dd>{{ $order->email }}</dd><dt>Адрес</dt><dd>{{ $order->address }}</dd><dt>Комментарий</dt><dd>{{ $order->notes ?: '—' }}</dd></dl></section><section class="admin-panel"><h2 class="admin-section-title">Статус заказа</h2><form action="{{ route('admin.orders.update', $order) }}" method="POST">@csrf @method('PATCH')<select class="form-select mb-3" name="status">@foreach($statuses as $value => $label)<option value="{{ $value }}" @selected($order->status === $value)>{{ $label }}</option>@endforeach</select><button class="btn btn-primary-soft">Сохранить статус</button></form></section></div>
+    </div>
+@endsection

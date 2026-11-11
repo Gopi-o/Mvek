@@ -34,6 +34,9 @@
                     <a class="nav-icon-link" href="{{ route('cart.index') }}" aria-label="Корзина">Корзина <span class="cart-count">{{ array_sum(session('cart', [])) }}</span></a>
                     @auth
                         <a class="nav-icon-link" href="{{ route('account') }}">Кабинет</a>
+                        @if (auth()->user()->hasAnyRole(['admin', 'manager']))
+                            <a class="nav-icon-link" href="{{ route('admin.dashboard') }}">Панель</a>
+                        @endif
                     @else
                         <a class="nav-icon-link" href="{{ route('login') }}">Войти</a>
                     @endauth
