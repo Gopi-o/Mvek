@@ -1,0 +1,10 @@
+
+
+<?php $__env->startSection('title', 'Категории — панель UP_ZOO'); ?>
+
+<?php $__env->startSection('content'); ?>
+    <div class="admin-page-heading"><div><span class="eyebrow">КАТАЛОГ</span><h1>Категории</h1><p>Категории помогают покупателям находить подходящие товары.</p></div><a class="btn btn-primary-soft" href="<?php echo e(route('admin.categories.create')); ?>">+ Добавить категорию</a></div>
+    <section class="admin-panel"><div class="table-responsive"><table class="table admin-table"><thead><tr><th>Категория</th><th>URL</th><th>Товаров</th><th></th></tr></thead><tbody><?php $__empty_1 = true; $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?><tr><td><?php echo e($category->icon); ?> <?php echo e($category->name); ?></td><td><?php echo e($category->slug); ?></td><td><?php echo e($category->products_count); ?></td><td><div class="admin-actions"><a href="<?php echo e(route('admin.categories.edit', $category)); ?>">Изменить</a><form action="<?php echo e(route('admin.categories.destroy', $category)); ?>" method="POST" onsubmit="return confirm('Удалить категорию?')"><?php echo csrf_field(); ?> <?php echo method_field('DELETE'); ?><button>Удалить</button></form></div></td></tr><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?><tr><td colspan="4" class="text-center text-muted">Категорий пока нет</td></tr><?php endif; ?></tbody></table></div><?php echo e($categories->links()); ?></section>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH E:\Suorce\VS_CODE\WEB\Mvek\UP_Zoo\resources\views/admin/categories/index.blade.php ENDPATH**/ ?>

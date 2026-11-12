@@ -1,0 +1,7 @@
+@model IReadOnlyList<Product>
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Товары";
+}
+<div class="admin-page-heading"><div><span class="eyebrow">КАТАЛОГ</span><h1>Товары</h1><p>Управление ассортиментом и остатками.</p></div><a class="btn btn-primary-soft" asp-action="CreateProduct">+ Добавить товар</a></div>
+<section class="admin-panel"><div class="table-responsive"><table class="table admin-table"><thead><tr><th>Товар</th><th>Категория</th><th>Бренд</th><th>Цена</th><th>Остаток</th><th>Действие</th></tr></thead><tbody>@if(Model.Count==0){<tr><td colspan="6" class="text-center text-muted py-4">Товаров пока нет</td></tr>}@foreach(var product in Model){<tr><td><a class="admin-product-name" asp-action="EditProduct" asp-route-id="@product.Id">@product.Name</a></td><td>@(product.Category?.Name ?? "—")</td><td>@(product.Brand?.Name ?? "—")</td><td>@product.CurrentPrice.ToString("N0") ₽</td><td>@product.Stock</td><td><div class="admin-actions"><form asp-action="DeleteProduct" asp-route-id="@product.Id" method="post" onsubmit="return confirm('Удалить товар?')"><button>Удалить</button></form></div></td></tr>}</tbody></table></div></section>

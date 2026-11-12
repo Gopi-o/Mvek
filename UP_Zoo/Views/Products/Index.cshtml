@@ -1,0 +1,17 @@
+@model CatalogViewModel
+@{
+    ViewData["Title"] = Model.Title;
+}
+<section class="page-hero"><div class="container"><span class="eyebrow">ПОДБРАНО С ЗАБОТОЙ</span><h1>@Model.Title</h1><p>Всё самое нужное для счастливых хвостиков.</p></div></section>
+<section class="section-block"><div class="container">
+    <form class="filter-panel row g-3 align-items-end mb-4" method="get">
+        <div class="col-12 col-md-4"><label class="form-label" for="q">Поиск</label><input class="form-control" id="q" name="q" value="@Model.Query" placeholder="Например, корм"></div>
+        <div class="col-6 col-md-2"><label class="form-label" for="category">Категория</label><select class="form-select" id="category" name="category"><option value="">Все</option>@foreach(var item in Model.Categories){<option value="@item.Slug" selected="@(Model.Category == item.Slug)">@item.Name</option>}</select></div>
+        <div class="col-6 col-md-2"><label class="form-label" for="brand">Бренд</label><select class="form-select" id="brand" name="brand"><option value="">Все</option>@foreach(var item in Model.Brands){<option value="@item.Slug" selected="@(Model.Brand == item.Slug)">@item.Name</option>}</select></div>
+        <div class="col-6 col-md-1"><label class="form-label" for="minPrice">От, ₽</label><input class="form-control" id="minPrice" type="number" min="0" name="minPrice" value="@Model.MinPrice"></div>
+        <div class="col-6 col-md-1"><label class="form-label" for="maxPrice">До, ₽</label><input class="form-control" id="maxPrice" type="number" min="0" name="maxPrice" value="@Model.MaxPrice"></div>
+        <div class="col-12 col-md-2"><button class="btn btn-primary-soft w-100">Найти товары</button></div>
+    </form>
+    @if (Model.Products.Count == 0) { <div class="empty-state"><span>🐾</span><h2>Пока ничего не нашлось</h2><p>Попробуйте изменить условия поиска.</p><a class="btn btn-outline-purple rounded-pill" asp-action="Index">Сбросить фильтры</a></div> }
+    else { <div class="row g-4">@foreach (var product in Model.Products) { <div class="col-6 col-lg-3"><partial name="_ProductCard" model="product" /></div> }</div> }
+</div></section>

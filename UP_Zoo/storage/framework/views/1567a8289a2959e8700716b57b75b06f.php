@@ -1,0 +1,10 @@
+
+
+<?php $__env->startSection('title', 'Бренды — панель UP_ZOO'); ?>
+
+<?php $__env->startSection('content'); ?>
+    <div class="admin-page-heading"><div><span class="eyebrow">КАТАЛОГ</span><h1>Бренды</h1><p>Управление брендами, представленными в магазине.</p></div><a class="btn btn-primary-soft" href="<?php echo e(route('admin.brands.create')); ?>">+ Добавить бренд</a></div>
+    <section class="admin-panel"><div class="table-responsive"><table class="table admin-table"><thead><tr><th>Бренд</th><th>URL</th><th>Товаров</th><th></th></tr></thead><tbody><?php $__empty_1 = true; $__currentLoopData = $brands; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $brand): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?><tr><td><strong><?php echo e($brand->name); ?></strong><small class="d-block text-muted"><?php echo e($brand->description); ?></small></td><td><?php echo e($brand->slug); ?></td><td><?php echo e($brand->products_count); ?></td><td><div class="admin-actions"><a href="<?php echo e(route('admin.brands.edit', $brand)); ?>">Изменить</a><form action="<?php echo e(route('admin.brands.destroy', $brand)); ?>" method="POST" onsubmit="return confirm('Удалить бренд?')"><?php echo csrf_field(); ?> <?php echo method_field('DELETE'); ?><button>Удалить</button></form></div></td></tr><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?><tr><td colspan="4" class="text-center text-muted">Брендов пока нет</td></tr><?php endif; ?></tbody></table></div><?php echo e($brands->links()); ?></section>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH E:\Suorce\VS_CODE\WEB\Mvek\UP_Zoo\resources\views/admin/brands/index.blade.php ENDPATH**/ ?>

@@ -1,0 +1,21 @@
+@model Product
+<article class="product-card h-100">
+    <a class="product-visual" asp-controller="Products" asp-action="Details" asp-route-slug="@Model.Slug" aria-label="@Model.Name">
+        @if (Model.SalePrice.HasValue) { <span class="product-badge">Выгодно</span> }
+        else if (Model.IsNew) { <span class="product-badge badge-new">Новинка</span> }
+        @if (!string.IsNullOrWhiteSpace(Model.ImageUrl))
+        {
+            <img src="@Model.ImageUrl" alt="@Model.Name" loading="lazy">
+        }
+        else
+        {
+            <span class="product-emoji">@(Model.Category?.Icon ?? "🐾")</span><span class="product-visual-label">@(Model.Category?.Name ?? "Для питомцев")</span>
+        }
+    </a>
+    <div class="product-info"><div class="product-meta">@(Model.Brand?.Name ?? "UP_ZOO")@if (Model.Category is not null) { <span> · @Model.Category.Name</span> }</div><a class="product-title" asp-controller="Products" asp-action="Details" asp-route-slug="@Model.Slug">@Model.Name</a>
+        <div class="d-flex align-items-center justify-content-between gap-2 mt-3"><div class="product-price">@Model.CurrentPrice.ToString("N0") ₽ @if (Model.SalePrice.HasValue) { <del>@Model.Price.ToString("N0") ₽</del> }</div>
+            @if (Model.Stock > 0) { <form asp-controller="Cart" asp-action="Add" method="post"><input type="hidden" name="id" value="@Model.Id"><button class="btn btn-add" aria-label="Добавить в корзину">+</button></form> }
+            else { <span class="text-muted small">Нет в наличии</span> }
+        </div>
+    </div>
+</article>

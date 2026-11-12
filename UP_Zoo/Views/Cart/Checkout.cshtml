@@ -1,0 +1,13 @@
+@model CheckoutViewModel
+@{
+    ViewData["Title"] = "Оформление заказа";
+}
+<section class="page-hero"><div class="container"><span class="eyebrow">ОСТАЛСЯ ОДИН ШАГ</span><h1>Оформление заказа</h1><p>Оставьте контакты — мы бережно доставим покупки домой.</p></div></section>
+<section class="section-block"><div class="container"><div class="row g-5"><div class="col-lg-7"><div class="form-card"><h2>Куда доставить заказ?</h2><div asp-validation-summary="All" class="text-danger mb-3"></div><form asp-action="Checkout" method="post" class="row g-3">
+    <div class="col-md-6"><label asp-for="CustomerName" class="form-label">Ваше имя</label><input asp-for="CustomerName" class="form-control" autocomplete="name"><span asp-validation-for="CustomerName" class="text-danger small"></span></div>
+    <div class="col-md-6"><label asp-for="Phone" class="form-label">Телефон</label><input asp-for="Phone" class="form-control" autocomplete="tel"><span asp-validation-for="Phone" class="text-danger small"></span></div>
+    <div class="col-12"><label asp-for="Email" class="form-label">Электронная почта</label><input asp-for="Email" class="form-control" autocomplete="email"><span asp-validation-for="Email" class="text-danger small"></span></div>
+    <div class="col-12"><label asp-for="Address" class="form-label">Адрес доставки</label><input asp-for="Address" class="form-control" placeholder="Город, улица, дом, квартира"><span asp-validation-for="Address" class="text-danger small"></span></div>
+    <div class="col-12"><label asp-for="Notes" class="form-label">Комментарий <span class="text-muted">(необязательно)</span></label><textarea asp-for="Notes" class="form-control" rows="3"></textarea></div>
+    <div class="col-12"><button class="btn btn-primary-soft">Подтвердить заказ →</button></div>
+</form></div></div><div class="col-lg-5"><div class="order-summary"><h2>Оплата и доставка</h2><p>Менеджер свяжется с вами для подтверждения заказа и согласования способа оплаты и времени доставки.</p><div class="checkout-note">♡ Доставка бесплатно при заказе от 2 000 ₽</div><a class="text-link" asp-action="Index">← Вернуться в корзину</a></div></div></div></div></section>

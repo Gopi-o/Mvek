@@ -1,0 +1,23 @@
+@model IReadOnlyList<Review>
+@{
+    ViewData["Title"] = "Отзывы";
+    var products = ViewBag.Products as IReadOnlyList<Product> ?? [];
+}
+<section class="page-hero"><div class="container"><span class="eyebrow">СЛОВА, КОТОРЫЕ ГРЕЮТ</span><h1>Отзывы покупателей</h1><p>Истории счастливых питомцев и их людей.</p></div></section>
+<section class="section-block"><div class="container"><div class="row g-4">
+@if(Model.Count == 0){<div class="col-12"><p>Отзывов пока нет — ваши могут стать первыми.</p></div>}
+@foreach(var review in Model){<div class="col-md-6 col-lg-4"><article class="review-card h-100"><div class="review-stars">@string.Concat(Enumerable.Repeat("★", review.Rating))</div><p>«@review.Text»</p><strong>@review.AuthorName</strong>@if(review.Product is not null){<small>@review.Product.Name</small>}</article></div>}
+</div>
+@if(User.Identity?.IsAuthenticated == true)
+{
+    <div class="form-card mt-5"><h2>Оставить отзыв</h2><p>Поделиться отзывом можно после покупки товара в UP_ZOO.</p><div asp-validation-summary="All" class="text-danger"></div><form asp-action="AddReview" method="post" class="row g-3">
+        <div class="col-md-6"><label class="form-label" for="ProductId">Купленный товар</label><select class="form-select" name="ProductId" id="ProductId" required><option value="">Выберите товар</option>@foreach(var product in products){<option value="@product.Id">@product.Name</option>}</select></div>
+        <div class="col-md-6"><label class="form-label" for="Rating">Оценка</label><select class="form-select" name="Rating" id="Rating">@for(var rating=5;rating>=1;rating--){<option value="@rating">@rating из 5</option>}</select></div>
+        <div class="col-12"><label class="form-label" for="Text">Ваш отзыв</label><textarea class="form-control" name="Text" id="Text" rows="4" minlength="10" maxlength="1000" required></textarea></div><div class="col-12"><button class="btn btn-primary-soft">Отправить отзыв</button></div>
+    </form></div>
+}
+else
+{
+    <div class="form-card mt-5"><h2>Хотите поделиться впечатлениями?</h2><p>Войдите в личный кабинет, чтобы оставить отзыв о покупке.</p><a class="btn btn-primary-soft" asp-controller="Account" asp-action="Login">Войти в кабинет →</a></div>
+}
+</div></section>

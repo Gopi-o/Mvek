@@ -1,0 +1,28 @@
+@model HomeViewModel
+@{
+    ViewData["Title"] = "Забота в каждом хвостике";
+}
+<section class="hero-section"><div class="container"><div class="hero-card">
+    <div class="hero-copy"><span class="eyebrow">ЛЮБИМ ПИТОМЦЕВ, КАК СВОИХ</span><h1>Счастливый хвост —<br><span>счастливый дом.</span></h1><p>Всё самое нужное для маленьких и больших друзей — с заботой, вниманием и любовью.</p><div class="d-flex flex-wrap gap-3"><a class="btn btn-primary-soft" asp-controller="Products" asp-action="Index">Перейти в каталог <span>→</span></a><a class="hero-secondary align-self-center" asp-controller="Store" asp-action="About">Узнать о нас</a></div><div class="hero-note"><span class="hero-note-icon">♡</span><span>Бережно выбираем<br>каждый товар</span></div></div>
+    <div class="hero-art" aria-hidden="true"><div class="hero-sun"></div><div class="hero-orbit orbit-one"></div><div class="hero-orbit orbit-two"></div><div class="hero-pet">🐕</div><div class="hero-sparkle sparkle-one">✦</div><div class="hero-sparkle sparkle-two">✿</div><div class="hero-float-card">С любовью<br>для хвостиков <span>♡</span></div></div>
+</div></div></section>
+<section class="section-block"><div class="container"><div class="section-heading"><div><span class="eyebrow">НАЙДЁТСЯ ВСЁ</span><h2>Кому сегодня выбираем?</h2></div><a class="text-link" asp-controller="Products" asp-action="Index">Весь каталог →</a></div><div class="row g-3">
+@foreach (var category in Model.Categories)
+{
+    <div class="col-6 col-lg-3"><a class="category-tile" asp-controller="Products" asp-action="Index" asp-route-category="@category.Slug"><span class="category-icon">@category.Icon</span><span><strong>@category.Name</strong><small>@category.Products.Count товаров</small></span><span class="category-arrow">↗</span></a></div>
+}
+</div></div></section>
+<section class="section-block section-tint"><div class="container"><div class="section-heading"><div><span class="eyebrow">ВЫБРАЛИ С ЛЮБОВЬЮ</span><h2>Любимчики UP_ZOO</h2></div><a class="text-link" asp-controller="Products" asp-action="Index">Смотреть всё →</a></div><div class="row g-4">
+@foreach (var product in Model.Products)
+{
+    <div class="col-6 col-lg-3"><partial name="_ProductCard" model="product" /></div>
+}
+</div></div></section>
+<section class="section-block"><div class="container"><div class="promo-banner"><div><span class="eyebrow">ПЕРВАЯ ПОКУПКА — С ОСОБОЙ ЗАБОТОЙ</span><h2>Порадуйте своего хвостика</h2><p>Загляните в каталог: мы уже собрали много полезного.</p><a class="btn btn-light rounded-pill px-4" asp-controller="Store" asp-action="Promotions">Посмотреть акции →</a></div><div class="promo-illustration" aria-hidden="true">🎁</div></div></div></section>
+<section class="section-block section-tint"><div class="container"><div class="section-heading"><div><span class="eyebrow">ОТ ВСЕГО СЕРДЦА</span><h2>Питомцы одобряют</h2></div><a class="text-link" asp-controller="Store" asp-action="Reviews">Все отзывы →</a></div><div class="row g-4">
+@foreach (var review in Model.Reviews)
+{
+    <div class="col-md-4"><article class="review-card"><div class="review-stars">@string.Concat(Enumerable.Repeat("★", review.Rating))</div><p>«@review.Text»</p><strong>@review.AuthorName</strong><small>Покупатель UP_ZOO</small></article></div>
+}
+</div></div></section>
+<section class="section-block"><div class="container"><div class="about-strip"><span class="about-strip-icon">🐾</span><div><span class="eyebrow">UP_ZOO — ЭТО ПРО ЗАБОТУ</span><h2>Питомцы — семья. Мы это понимаем.</h2><p>Помогаем выбирать лучшее для тех, кто каждый день дарит нам безусловную любовь.</p></div><a class="btn btn-outline-purple rounded-pill px-4" asp-controller="Store" asp-action="About">О магазине</a></div></div></section>

@@ -1,0 +1,24 @@
+@model IReadOnlyList<CartItem>
+@{
+    ViewData["Title"] = "Корзина";
+    var total = (decimal)(ViewBag.Total ?? 0m);
+}
+<section class="page-hero"><div class="container"><span class="eyebrow">УЖЕ ПОЧТИ ДОМА</span><h1>Корзина</h1><p>Проверьте покупки, а мы бережно всё соберём.</p></div></section>
+<section class="section-block"><div class="container">
+@if(Model.Count == 0)
+{
+    <div class="empty-state"><span>🧺</span><h2>Корзина пока пустая</h2><p>Здесь будут товары, которые вы выбрали для своего питомца.</p><a class="btn btn-primary-soft" asp-controller="Products" asp-action="Index">Перейти в каталог →</a></div>
+}
+else
+{
+    <div class="row g-4"><div class="col-lg-8">
+        @foreach(var item in Model)
+        {
+            <div class="cart-item"><div class="cart-product-icon">@(item.CategoryIcon ?? "🐾")</div><div class="cart-product-info"><span>@item.Name</span><span>@item.Price.ToString("N0") ₽ за шт.</span></div>
+                <form asp-action="Update" method="post" class="d-flex align-items-center gap-2"><input type="hidden" name="id" value="@item.ProductId"><label class="visually-hidden" for="quantity-@item.ProductId">Количество</label><input class="form-control quantity-input" id="quantity-@item.ProductId" type="number" name="quantity" min="1" max="99" value="@item.Quantity"><button class="btn btn-outline-purple btn-sm">Обновить</button></form>
+                <strong class="cart-line-total">@item.Subtotal.ToString("N0") ₽</strong><form asp-action="Remove" method="post"><input type="hidden" name="id" value="@item.ProductId"><button class="remove-link" aria-label="Удалить товар">×</button></form>
+            </div>
+        }
+    </div><div class="col-lg-4"><div class="order-summary"><h2>Ваш заказ</h2><div><span>Товары</span><strong>@total.ToString("N0") ₽</strong></div><div><span>Доставка</span><strong>Уточним при подтверждении</strong></div><hr><div class="summary-total"><span>Итого</span><strong>@total.ToString("N0") ₽</strong></div><a class="btn btn-primary-soft w-100 mt-3" asp-action="Checkout">Оформить заказ →</a><a class="text-link d-block text-center mt-3" asp-controller="Products" asp-action="Index">Продолжить покупки</a></div></div></div>
+}
+</div></section>

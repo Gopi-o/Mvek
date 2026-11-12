@@ -1,0 +1,8 @@
+@model IReadOnlyList<Product>
+@{
+    ViewData["Title"] = "Бренды";
+    var brands = ViewBag.Brands as IReadOnlyList<Brand> ?? [];
+}
+<section class="page-hero"><div class="container"><span class="eyebrow">МЫ ИХ ВЫБРАЛИ</span><h1>Любимые бренды</h1><p>Только те, кому доверяем заботу о ваших питомцах.</p></div></section>
+<section class="section-block"><div class="container"><div class="row g-3 mb-5">@foreach(var brand in brands){<div class="col-6 col-lg-4"><a class="brand-tile" asp-action="Brands" asp-route-brand="@brand.Slug"><span class="brand-tile-mark">✦</span><strong>@brand.Name</strong><span>@brand.Description</span><small>@brand.Products.Count товаров</small></a></div>}</div>
+<div class="row g-4">@foreach(var product in Model){<div class="col-6 col-lg-3"><partial name="_ProductCard" model="product" /></div>}</div></div></section>

@@ -1,0 +1,10 @@
+
+
+<?php $__env->startSection('title', 'Бренды — UP_ZOO'); ?>
+
+<?php $__env->startSection('content'); ?>
+    <section class="page-hero"><div class="container"><span class="eyebrow">МЫ ИХ ВЫБРАЛИ</span><h1>Любимые бренды</h1><p>Только те, кому доверяем заботу о ваших питомцах.</p></div></section>
+    <section class="section-block"><div class="container"><div class="row g-3 mb-5"><?php $__currentLoopData = $brands; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $brand): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><div class="col-6 col-lg-4"><a class="brand-tile <?php if(request('brand') === $brand->slug): ?> selected <?php endif; ?>" href="<?php echo e(route('brands', ['brand' => $brand->slug])); ?>"><span class="brand-tile-mark">✦</span><strong><?php echo e($brand->name); ?></strong><span><?php echo e($brand->description); ?></span><small><?php echo e($brand->products_count); ?> товаров</small></a></div><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?></div><?php if(request('brand')): ?><a href="<?php echo e(route('brands')); ?>" class="text-link d-inline-block mb-3">Все бренды ←</a><?php endif; ?><div class="row g-4"><?php $__empty_1 = true; $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?><div class="col-6 col-lg-3"><?php echo $__env->make('partials.product-card', ['product' => $product], array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?></div><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?><div class="col-12"><p>Товары этого бренда скоро появятся.</p></div><?php endif; ?></div><div class="mt-4"><?php echo e($products->links()); ?></div></div></section>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH E:\Suorce\VS_CODE\WEB\Mvek\UP_Zoo\resources\views/pages/brands.blade.php ENDPATH**/ ?>

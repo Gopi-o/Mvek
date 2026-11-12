@@ -1,0 +1,10 @@
+@model LoginViewModel
+@{
+    ViewData["Title"] = "Войти";
+}
+<section class="auth-section"><div class="auth-card"><span class="auth-icon">🐾</span><span class="eyebrow">С ВОЗВРАЩЕНИЕМ</span><h1>Войти в кабинет</h1><p>Ваш питомец уже ждёт маленький сюрприз.</p><div asp-validation-summary="All" class="text-danger text-start"></div><form asp-action="Login" method="post" asp-route-returnUrl="@ViewBag.ReturnUrl" class="row g-3 text-start">
+    <div class="col-12"><label asp-for="Email" class="form-label">Электронная почта</label><input asp-for="Email" class="form-control" autocomplete="email"></div>
+    <div class="col-12"><label asp-for="Password" class="form-label">Пароль</label><input asp-for="Password" class="form-control" autocomplete="current-password"></div>
+    <div class="col-12 form-check ms-2"><input asp-for="RememberMe" class="form-check-input"><label asp-for="RememberMe" class="form-check-label">Запомнить меня</label></div>
+    <div class="col-12"><button class="btn btn-primary-soft w-100">Войти →</button></div>
+</form><div class="auth-bottom">Впервые у нас? <a asp-action="Register">Создать аккаунт</a></div></div></section>

@@ -1,8 +1,0 @@
-@extends('layouts.admin')
-
-@section('title', 'Пользователи — панель UP_ZOO')
-
-@section('content')
-    <div class="admin-page-heading"><div><span class="eyebrow">ПОЛЬЗОВАТЕЛИ</span><h1>Пользователи и роли</h1><p>Назначайте роли покупателя, менеджера и администратора.</p></div></div>
-    <section class="admin-panel"><div class="table-responsive"><table class="table admin-table"><thead><tr><th>Пользователь</th><th>Электронная почта</th><th>Дата регистрации</th><th>Роль</th><th>Действие</th></tr></thead><tbody>@forelse($users as $user)<tr><td><strong>{{ $user->name }}</strong>@if($user->is(auth()->user()))<small class="d-block text-muted">Это вы</small>@endif</td><td>{{ $user->email }}</td><td>{{ $user->created_at->format('d.m.Y') }}</td><td><form class="d-flex gap-2" action="{{ route('admin.users.update', $user) }}" method="POST">@csrf @method('PATCH')<select class="form-select form-select-sm" name="role">@foreach($roles as $value => $label)<option value="{{ $value }}" @selected($user->role === $value)>{{ $label }}</option>@endforeach</select><button class="btn btn-sm btn-outline-purple" type="submit">Сохранить</button></form></td><td>@if(!$user->is(auth()->user()))<form action="{{ route('admin.users.destroy', $user) }}" method="POST" onsubmit="return confirm('Удалить пользователя?')">@csrf @method('DELETE')<button class="admin-danger-link">Удалить</button></form>@else<span class="text-muted small">—</span>@endif</td></tr>@empty<tr><td colspan="5" class="text-center text-muted py-4">Пользователей пока нет</td></tr>@endforelse</tbody></table></div>{{ $users->links() }}</section>
-@endsection

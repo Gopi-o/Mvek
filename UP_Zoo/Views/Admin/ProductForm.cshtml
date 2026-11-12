@@ -1,0 +1,23 @@
+@model Product
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = Model.Id == 0 ? "Новый товар" : "Изменить товар";
+    var categories = ViewBag.Categories as IReadOnlyList<Category> ?? [];
+    var brands = ViewBag.Brands as IReadOnlyList<Brand> ?? [];
+    var editing = Model.Id != 0;
+}
+<div class="admin-page-heading"><div><span class="eyebrow">КАТАЛОГ / ТОВАРЫ</span><h1>@ViewData["Title"]</h1><p>Заполните сведения о товаре.</p></div><a class="btn btn-outline-purple" asp-action="Products">← К списку</a></div>
+<form class="admin-panel admin-form" asp-action="@(editing ? "EditProduct" : "CreateProduct")" asp-route-id="@Model.Id" method="post"><div asp-validation-summary="All" class="text-danger"></div>@if(editing){<input type="hidden" asp-for="Id">}
+<div class="row g-3">
+    <div class="col-md-8"><label asp-for="Name" class="form-label">Название товара</label><input asp-for="Name" class="form-control"><span asp-validation-for="Name" class="text-danger small"></span></div>
+    <div class="col-md-4"><label asp-for="Slug" class="form-label">URL-идентификатор</label><input asp-for="Slug" class="form-control"><span asp-validation-for="Slug" class="text-danger small"></span></div>
+    <div class="col-md-6"><label asp-for="CategoryId" class="form-label">Категория</label><select asp-for="CategoryId" class="form-select"><option value="">Не выбрана</option>@foreach(var category in categories){<option value="@category.Id">@category.Name</option>}</select></div>
+    <div class="col-md-6"><label asp-for="BrandId" class="form-label">Бренд</label><select asp-for="BrandId" class="form-select"><option value="">Не выбран</option>@foreach(var brand in brands){<option value="@brand.Id">@brand.Name</option>}</select></div>
+    <div class="col-12"><label asp-for="Description" class="form-label">Описание</label><textarea asp-for="Description" class="form-control" rows="3"></textarea></div>
+    <div class="col-md-4"><label asp-for="Price" class="form-label">Цена, ₽</label><input asp-for="Price" class="form-control" type="number" step=".01"></div>
+    <div class="col-md-4"><label asp-for="SalePrice" class="form-label">Цена по акции, ₽</label><input asp-for="SalePrice" class="form-control" type="number" step=".01"></div>
+    <div class="col-md-4"><label asp-for="Stock" class="form-label">На складе</label><input asp-for="Stock" class="form-control" type="number"></div>
+    <div class="col-12"><label asp-for="ImageUrl" class="form-label">Ссылка на изображение</label><input asp-for="ImageUrl" class="form-control"></div>
+    <div class="col-12 d-flex flex-wrap gap-4"><label class="form-check"><input asp-for="IsNew" class="form-check-input"> Новинка</label><label class="form-check"><input asp-for="IsFeatured" class="form-check-input"> Рекомендуемый товар</label></div>
+    <div class="col-12"><button class="btn btn-primary-soft">Сохранить товар</button></div>
+</div></form>

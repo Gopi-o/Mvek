@@ -1,8 +1,0 @@
-@extends('layouts.app')
-
-@section('title', 'О магазине — UP_ZOO')
-
-@section('content')
-    <section class="page-hero"><div class="container"><span class="eyebrow">ЗАБОТА — НАША ЛЮБИМАЯ РАБОТА</span><h1>О магазине</h1><p>UP_ZOO — место, где понимают: питомцы не просто животные, они часть семьи.</p></div></section>
-    <section class="section-block"><div class="container"><div class="row align-items-center g-5"><div class="col-lg-6"><div class="about-art">🐕<span>♡</span></div></div><div class="col-lg-6"><span class="eyebrow">НАША МИССИЯ</span><h2 class="content-heading">Чтобы заботиться было легко и радостно</h2><p class="content-copy">Мы собрали в одном месте проверенные товары для домашних любимцев — от привычного корма до маленьких поводов поиграть и порадоваться.</p><p class="content-copy">В UP_ZOO мы верим, что большая любовь складывается из простых ежедневных вещей: вкусного обеда, весёлой прогулки и мягкого места рядом.</p><a class="btn btn-primary-soft mt-2" href="{{ route('catalog') }}">Выбрать для питомца <span>→</span></a></div></div><div class="row g-4 mt-5"><div class="col-md-4"><div class="value-card"><span>♡</span><h3>С теплом</h3><p>Отбираем товары, которыми сами хотели бы порадовать своих питомцев.</p></div></div><div class="col-md-4"><div class="value-card"><span>✦</span><h3>С вниманием</h3><p>Помогаем с выбором и всегда готовы ответить на ваши вопросы.</p></div></div><div class="col-md-4"><div class="value-card"><span>☼</span><h3>С заботой</h3><p>Аккуратно собираем каждый заказ и бережно доставляем его домой.</p></div></div></div></div></section>
-@endsection

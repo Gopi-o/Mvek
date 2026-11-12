@@ -1,0 +1,7 @@
+@model IReadOnlyList<Brand>
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Бренды";
+}
+<div class="admin-page-heading"><div><span class="eyebrow">КАТАЛОГ</span><h1>Бренды</h1><p>Бренды, представленные в магазине.</p></div><a class="btn btn-primary-soft" asp-action="CreateBrand">+ Добавить бренд</a></div>
+<section class="admin-panel"><div class="table-responsive"><table class="table admin-table"><thead><tr><th>Бренд</th><th>URL</th><th>Товаров</th><th></th></tr></thead><tbody>@if(Model.Count==0){<tr><td colspan="4" class="text-center text-muted">Брендов пока нет</td></tr>}@foreach(var item in Model){<tr><td><strong>@item.Name</strong><small class="d-block text-muted">@item.Description</small></td><td>@item.Slug</td><td>@item.Products.Count</td><td><div class="admin-actions"><a asp-action="EditBrand" asp-route-id="@item.Id">Изменить</a><form asp-action="DeleteBrand" asp-route-id="@item.Id" method="post" onsubmit="return confirm('Удалить бренд?')"><button>Удалить</button></form></div></td></tr>}</tbody></table></div></section>

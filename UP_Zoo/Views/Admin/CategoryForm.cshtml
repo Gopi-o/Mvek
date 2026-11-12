@@ -1,0 +1,8 @@
+@model Category
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = Model.Id == 0 ? "Новая категория" : "Изменить категорию";
+    var editing = Model.Id != 0;
+}
+<div class="admin-page-heading"><div><span class="eyebrow">КАТАЛОГ / КАТЕГОРИИ</span><h1>@ViewData["Title"]</h1></div><a class="btn btn-outline-purple" asp-action="Categories">← К списку</a></div>
+<form class="admin-panel admin-form" asp-action="@(editing ? "EditCategory" : "CreateCategory")" asp-route-id="@Model.Id" method="post"><div asp-validation-summary="All" class="text-danger"></div>@if(editing){<input type="hidden" asp-for="Id">}<div class="row g-3"><div class="col-md-6"><label asp-for="Name" class="form-label">Название</label><input asp-for="Name" class="form-control"></div><div class="col-md-6"><label asp-for="Slug" class="form-label">URL</label><input asp-for="Slug" class="form-control"></div><div class="col-md-6"><label asp-for="Icon" class="form-label">Иконка</label><input asp-for="Icon" class="form-control"></div><div class="col-12"><label asp-for="Description" class="form-label">Описание</label><textarea asp-for="Description" class="form-control"></textarea></div><div class="col-12"><button class="btn btn-primary-soft">Сохранить</button></div></div></form>

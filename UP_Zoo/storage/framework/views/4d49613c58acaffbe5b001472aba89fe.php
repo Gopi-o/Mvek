@@ -1,0 +1,10 @@
+
+
+<?php $__env->startSection('title', 'Заказы — панель UP_ZOO'); ?>
+
+<?php $__env->startSection('content'); ?>
+    <div class="admin-page-heading"><div><span class="eyebrow">ЗАКАЗЫ</span><h1>Заказы покупателей</h1><p>Просмотр заказов и обработка их статусов.</p></div></div>
+    <section class="admin-panel"><div class="table-responsive"><table class="table admin-table"><thead><tr><th>№</th><th>Покупатель</th><th>Контакты</th><th>Дата</th><th>Сумма</th><th>Статус</th><th></th></tr></thead><tbody><?php $__empty_1 = true; $__currentLoopData = $orders; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $order): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?><tr><td>#<?php echo e($order->id); ?></td><td><?php echo e($order->customer_name); ?><small class="d-block text-muted"><?php echo e($order->user_id ? 'Аккаунт' : 'Гостевой заказ'); ?></small></td><td><?php echo e($order->email); ?><small class="d-block text-muted"><?php echo e($order->phone); ?></small></td><td><?php echo e($order->created_at->format('d.m.Y H:i')); ?></td><td><?php echo e(number_format((float) $order->total, 0, ',', ' ')); ?> ₽</td><td><span class="admin-status"><?php echo e($statuses[$order->status] ?? $order->status); ?></span></td><td><a href="<?php echo e(route('admin.orders.show', $order)); ?>">Открыть →</a></td></tr><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?><tr><td colspan="7" class="text-center text-muted py-4">Заказов пока нет</td></tr><?php endif; ?></tbody></table></div><?php echo e($orders->links()); ?></section>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH E:\Suorce\VS_CODE\WEB\Mvek\UP_Zoo\resources\views/admin/orders/index.blade.php ENDPATH**/ ?>

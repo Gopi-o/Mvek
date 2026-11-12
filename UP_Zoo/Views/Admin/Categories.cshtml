@@ -1,0 +1,7 @@
+@model IReadOnlyList<Category>
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Категории";
+}
+<div class="admin-page-heading"><div><span class="eyebrow">КАТАЛОГ</span><h1>Категории</h1><p>Разделы каталога товаров.</p></div><a class="btn btn-primary-soft" asp-action="CreateCategory">+ Добавить категорию</a></div>
+<section class="admin-panel"><div class="table-responsive"><table class="table admin-table"><thead><tr><th>Категория</th><th>URL</th><th>Товаров</th><th></th></tr></thead><tbody>@if(Model.Count==0){<tr><td colspan="4" class="text-center text-muted">Категорий пока нет</td></tr>}@foreach(var item in Model){<tr><td>@item.Icon @item.Name</td><td>@item.Slug</td><td>@item.Products.Count</td><td><div class="admin-actions"><a asp-action="EditCategory" asp-route-id="@item.Id">Изменить</a><form asp-action="DeleteCategory" asp-route-id="@item.Id" method="post" onsubmit="return confirm('Удалить категорию?')"><button>Удалить</button></form></div></td></tr>}</tbody></table></div></section>

@@ -1,0 +1,9 @@
+
+
+<?php $__env->startSection('title', 'Регистрация — UP_ZOO'); ?>
+
+<?php $__env->startSection('content'); ?>
+    <section class="auth-section"><div class="auth-card"><span class="auth-icon">🐾</span><span class="eyebrow">ДОБРО ПОЖАЛОВАТЬ</span><h1>Создать аккаунт</h1><p>Чтобы хорошие покупки и заказы всегда были под рукой.</p><form action="<?php echo e(route('register.store')); ?>" method="POST" class="row g-3 text-start"><?php echo csrf_field(); ?><div class="col-12"><label class="form-label" for="name">Ваше имя</label><input class="form-control" id="name" name="name" value="<?php echo e(old('name')); ?>" autocomplete="name" maxlength="120" required></div><div class="col-12"><label class="form-label" for="email">Электронная почта</label><input class="form-control" id="email" name="email" type="email" value="<?php echo e(old('email')); ?>" autocomplete="email" required></div><div class="col-12"><label class="form-label" for="password">Пароль</label><input class="form-control" id="password" name="password" type="password" autocomplete="new-password" minlength="8" required><div class="form-text">Не менее 8 символов</div></div><div class="col-12"><label class="form-label" for="password_confirmation">Повторите пароль</label><input class="form-control" id="password_confirmation" name="password_confirmation" type="password" autocomplete="new-password" required></div><div class="col-12"><button class="btn btn-primary-soft w-100" type="submit">Зарегистрироваться <span>→</span></button></div></form><div class="auth-bottom">Уже есть аккаунт? <a href="<?php echo e(route('login')); ?>">Войти</a></div></div></section>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH E:\Suorce\VS_CODE\WEB\Mvek\UP_Zoo\resources\views/auth/register.blade.php ENDPATH**/ ?>

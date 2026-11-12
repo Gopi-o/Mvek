@@ -1,0 +1,7 @@
+@model IReadOnlyList<Review>
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Отзывы";
+}
+<div class="admin-page-heading"><div><span class="eyebrow">ОТЗЫВЫ</span><h1>Отзывы покупателей</h1><p>@(User.IsInRole(ShopRoles.Admin)?"Проверяйте и публикуйте отзывы покупателей.":"Просмотр отзывов покупателей.")</p></div></div>
+<div class="row g-3">@if(Model.Count==0){<div class="col-12"><div class="admin-panel text-center text-muted">Отзывов пока нет.</div></div>}@foreach(var review in Model){<div class="col-lg-6"><article class="admin-panel admin-review"><div class="d-flex justify-content-between gap-3"><div><strong>@review.AuthorName</strong><small class="d-block text-muted">@(review.Product?.Name??"Товар не указан") · @review.CreatedAt.ToLocalTime().ToString("dd.MM.yyyy")</small></div><span class="admin-status">@(review.IsApproved?"Опубликован":"На проверке")</span></div><div class="review-stars my-2">@string.Concat(Enumerable.Repeat("★",review.Rating))</div><p>@review.Text</p>@if(User.IsInRole(ShopRoles.Admin)){<div class="admin-actions"><form asp-action="ModerateReview" asp-route-id="@review.Id" method="post"><input type="hidden" name="isApproved" value="@(!review.IsApproved)"><button>@(review.IsApproved?"Снять с публикации":"Одобрить")</button></form><form asp-action="DeleteReview" asp-route-id="@review.Id" method="post" onsubmit="return confirm('Удалить отзыв?')"><button class="text-danger">Удалить</button></form></div>}</article></div>}</div>
